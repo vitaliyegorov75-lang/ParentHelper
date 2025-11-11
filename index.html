@@ -1,0 +1,456 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Родительский Помощник — поддержка и ответы для родителей</title>
+    <style>
+        /* Базовые стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            background: #fefefe;
+        }
+
+        /* Хедер */
+        .main-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header-content .site-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-bottom: 0.3rem;
+        }
+
+        .header-content .site-description {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Навигация */
+        .main-nav {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            overflow-x: auto;
+            padding: 0.8rem 0;
+            gap: 0.5rem;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-menu::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.7rem 1rem;
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 25px;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+            border: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Герой секция */
+        .hero-section {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+        }
+
+        .cta-primary {
+            background: white;
+            color: #ff6b6b;
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: white;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Статистика */
+        .stats-section {
+            background: white;
+            padding: 3rem 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: #f8fafc;
+            border-radius: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #4a5568;
+            font-weight: 600;
+        }
+
+        /* Экстренная помощь */
+        .emergency-section {
+            background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%);
+            color: white;
+            padding: 2rem 1rem;
+            margin: 2rem auto;
+            border-radius: 20px;
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        .emergency-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .emergency-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .emergency-button {
+            padding: 1rem 2rem;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .emergency-button:hover {
+            background: white;
+            color: #ff4757;
+            transform: translateY(-2px);
+        }
+
+        /* Футер */
+        .main-footer {
+            background: #2d3748;
+            color: white;
+            padding: 3rem 1rem 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .emergency-buttons {
+                flex-direction: column;
+            }
+            
+            .emergency-button {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+        }
+
+        /* Анимации */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <h1>👨‍👩‍👧‍👦 Родительский Помощник</h1>
+            <p class="site-subtitle">Сообщество, где родители помогают родителям</p>
+            <p class="site-description">Проверенные ответы, поддержка 24/7 и сообщество, которое всегда рядом</p>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li><a href="#health" class="nav-link active">🩺 Здоровье</a></li>
+                <li><a href="#development" class="nav-link">📚 Развитие</a></li>
+                <li><a href="#nutrition" class="nav-link">👶 Питание</a></li>
+                <li><a href="#sleep" class="nav-link">💤 Сон</a></li>
+                <li><a href="#psychology" class="nav-link">💝 Психология</a></li>
+                <li><a href="#community" class="nav-link">👥 Сообщество</a></li>
+                <li><a href="#emergency" class="nav-link">🚨 Срочно</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="hero-section fade-in">
+            <div class="hero-content">
+                <h1>Перестаньте гадать — находите ответы</h1>
+                <p>От опытных родителей и проверенных экспертов. Без рекламы, без спама, только реальная помощь.</p>
+                <div class="cta-buttons">
+                    <a href="#answers" class="cta-button cta-primary">🔍 Найти ответ на вопрос</a>
+                    <a href="#community" class="cta-button cta-secondary">💬 Присоединиться к сообществу</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card fade-in">
+                    <div class="stat-number">5,000+</div>
+                    <div class="stat-label">Родителей в сообществе</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">21</div>
+                    <div class="stat-label">Экспертных раздела</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Поддержка в чате</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Вопросов получают ответ</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="emergency-section fade-in">
+            <div class="emergency-content">
+                <h2>🚨 Нужна срочная помощь?</h2>
+                <p>Не ждите — получите консультацию прямо сейчас</p>
+                <div class="emergency-buttons">
+                    <a href="#pediatric" class="emergency-button">👨‍⚕️ Срочный вопрос педиатру</a>
+                    <a href="#psychologist" class="emergency-button">💬 Консультация психолога</a>
+                    <a href="#first-aid" class="emergency-button">🆘 Первая помощь</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Родительский Помощник</h3>
+                <p>Сообщество, где нет глупых вопросов, а есть только заботливые ответы.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Разделы</h3>
+                <div class="footer-links">
+                    <a href="#health">Здоровье ребенка</a>
+                    <a href="#development">Развитие и обучение</a>
+                    <a href="#nutrition">Питание и уход</a>
+                    <a href="#psychology">Психология</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Поддержка</h3>
+                <div class="footer-links">
+                    <a href="#community">Форум</a>
+                    <a href="#experts">Консультации</a>
+                    <a href="#emergency">Срочная помощь</a>
+                    <a href="#contacts">Контакты</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Простая анимация появления при скролле
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Наблюдаем за всеми элементами с fade-in
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Интерактивность для кнопок
+        document.querySelectorAll('.cta-button, .emergency-button').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
