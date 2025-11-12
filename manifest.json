@@ -1,15 +1,15 @@
 ﻿{
-  "name": "Parent Helper - Помощник для родителей",
-  "short_name": "ParentHelper",
-  "description": "Полезные инструменты и расчеты для родителей",
+  "name": "Родительский Помощник",
+  "short_name": "РодительПомощ",
+  "description": "Помощник для родителей - уход, развитие, здоровье ребенка",
   "start_url": "/ParentHelper/",
   "scope": "/ParentHelper/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#4CAF50",
   "theme_color": "#4CAF50",
-  "orientation": "portrait-primary",
+  "orientation": "portrait",
   "lang": "ru",
-  "categories": ["education", "health"],
+  "categories": ["education", "health", "lifestyle"],
   "icons": [
     {
       "src": "icons/icon-72x72.png",
@@ -26,7 +26,7 @@
     {
       "src": "icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png", 
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]
