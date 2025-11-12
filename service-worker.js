@@ -1,12 +1,12 @@
-﻿const CACHE_NAME = 'parent-helper-v1.1';
+﻿const CACHE_NAME = 'parent-helper-v1.2';
 const urlsToCache = [
-  '/ParentHelper/',
-  '/ParentHelper/index.html',
-  '/ParentHelper/styles.css',
-  '/ParentHelper/manifest.json',
-  '/ParentHelper/icons/icon-192x192.png',
-  '/ParentHelper/icons/icon-512x512.png',
-  '/ParentHelper/images/MotherBaby.jpg'
+  './',
+  './index.html',
+  './styles.css',
+  './manifest.json',
+  './icons/icon-192x192.png',
+  './icons/icon-512x512.png',
+  './images/MotherBaby.jpg'
 ];
 
 self.addEventListener('install', function(event) {
@@ -14,12 +14,16 @@ self.addEventListener('install', function(event) {
     caches.open(CACHE_NAME)
       .then(function(cache) {
         console.log('Opened cache');
-        return cache.addAll(urlsToCache);
+        return cache.addAll(urlsToCache).catch(function(error) {
+          console.log('Cache addAll error:', error);
+        });
       })
   );
 });
 
 self.addEventListener('fetch', function(event) {
+  if (event.request.method !== 'GET') return;
+  
   event.respondWith(
     caches.match(event.request)
       .then(function(response) {
@@ -27,7 +31,18 @@ self.addEventListener('fetch', function(event) {
         if (response) {
           return response;
         }
-        return fetch(event.request);
+        
+        return fetch(event.request).then(function(response) {
+          // Кэшируем только успешные ответы
+          if (response && response.status === 200) {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME)
+              .then(function(cache) {
+                cache.put(event.request, responseClone);
+              });
+          }
+          return response;
+        });
       })
   );
 });
