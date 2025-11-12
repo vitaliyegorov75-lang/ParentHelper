@@ -1,5 +1,5 @@
 ﻿/* styles.css - РодительскийПомощник */
-/* Обновленная версия с исправленными ошибками */
+/* Полностью исправленная версия */
 
 /* Сброс стилей и базовые настройки */
 * {
@@ -39,7 +39,7 @@ body {
 }
 
 .site-subtitle {
-    color: #666;
+    color: #666666;
     font-size: 1.2rem;
     opacity: 0.9;
 }
@@ -67,7 +67,7 @@ body {
 
 .nav-link {
     text-decoration: none;
-    color: #333;
+    color: #333333;
     padding: 0.75rem 1.5rem;
     border-radius: 25px;
     transition: all 0.3s ease;
@@ -116,7 +116,7 @@ body {
 }
 
 .hero-description {
-    color: #666;
+    color: #666666;
     font-size: 1.1rem;
     margin-bottom: 2rem;
 }
@@ -141,14 +141,21 @@ body {
     box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
+.feature-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .feature-icon {
     font-size: 1.5rem;
-    margin-right: 0.5rem;
 }
 
 .feature-text {
     font-weight: 600;
-    color: #333;
+    color: #333333;
 }
 
 .hero-image {
@@ -164,7 +171,7 @@ body {
 
 .image-caption {
     margin-top: 1rem;
-    color: #666;
+    color: #666666;
     font-style: italic;
 }
 
@@ -192,7 +199,7 @@ body {
 }
 
 .section-header p {
-    color: #666;
+    color: #666666;
     font-size: 1.1rem;
 }
 
@@ -243,14 +250,14 @@ body {
 }
 
 .article-title {
-    color: #333;
+    color: #333333;
     font-size: 1.3rem;
     margin-bottom: 1rem;
     font-weight: 600;
 }
 
 .article-excerpt {
-    color: #666;
+    color: #666666;
     margin-bottom: 1.5rem;
     line-height: 1.5;
 }
@@ -288,7 +295,7 @@ body {
 }
 
 .stat-label {
-    color: #666;
+    color: #666666;
     font-size: 1rem;
 }
 
@@ -314,17 +321,17 @@ body {
 }
 
 .footer-info p {
-    color: #666;
+    color: #666666;
     margin-bottom: 2rem;
 }
 
 .footer-copyright {
     border-top: 1px solid #e9ecef;
     padding-top: 2rem;
-    color: #999;
+    color: #999999;
 }
 
-/* Кнопка установки PWA (дополнительные стили) */
+/* Кнопка установки PWA */
 .pwa-install-btn {
     position: fixed;
     bottom: 20px;
@@ -461,7 +468,8 @@ body {
 /* Подсветка для фокуса (доступность) */
 .nav-link:focus,
 .article-link:focus,
-.feature-card:focus {
+.feature-link:focus,
+.pwa-install-btn:focus {
     outline: 3px solid #4CAF50;
     outline-offset: 2px;
 }
