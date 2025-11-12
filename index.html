@@ -242,5 +242,94 @@
             </div>
         </div>
     </footer>
+
+    <!-- PWA Install Button Script -->
+    <script>
+    let deferredPrompt;
+    let installButton = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Предотвращаем автоматическое отображение браузерного промпта
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        // Создаем кнопку установки, если её ещё нет
+        if (!installButton) {
+            createInstallButton();
+        }
+        
+        // Показываем нашу кастомную кнопку
+        installButton.style.display = 'block';
+        
+        console.log('PWA installation available');
+    });
+
+    function createInstallButton() {
+        installButton = document.createElement('button');
+        installButton.textContent = '📱 Установить приложение';
+        installButton.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+            transition: all 0.3s ease;
+            display: none;
+        `;
+        
+        installButton.onmouseover = function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 6px 16px rgba(76, 175, 80, 0.4)';
+        };
+        
+        installButton.onmouseout = function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 4px 12px rgba(76, 175, 80, 0.3)';
+        };
+        
+        installButton.onclick = async () => {
+            if (!deferredPrompt) return;
+            
+            // Показываем нативный промпт установки
+            deferredPrompt.prompt();
+            
+            // Ждем выбора пользователя
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+                console.log('PWA installed successfully');
+                installButton.style.display = 'none';
+            } else {
+                console.log('PWA installation declined');
+            }
+            
+            deferredPrompt = null;
+        };
+        
+        document.body.appendChild(installButton);
+    }
+
+    // Скрываем кнопку после успешной установки
+    window.addEventListener('appinstalled', () => {
+        console.log('PWA was successfully installed');
+        if (installButton) {
+            installButton.style.display = 'none';
+        }
+        deferredPrompt = null;
+    });
+
+    // Проверяем, не установлено ли уже приложение
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        console.log('Running in standalone PWA mode');
+    }
+    </script>
 </body>
 </html>
