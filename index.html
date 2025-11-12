@@ -2,9 +2,38 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>РодительскийПомощник — помощь и поддержка для молодых родителей</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#4CAF50"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Icons -->
+    <link rel="icon" type="image/png" href="icons/icon-72x72.png">
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+
+    <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Service Worker Registration -->
+    <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(function(registration) {
+            console.log('ServiceWorker registered successfully');
+          })
+          .catch(function(error) {
+            console.log('ServiceWorker registration failed: ', error);
+          });
+      });
+    }
+    </script>
 </head>
 <body>
     <!-- Хедер -->
@@ -148,7 +177,7 @@
         </section>
 
         <!-- Наши эксперты -->
-        <section class="welcome-section">
+        <section class="experts-section">
             <div class="welcome-container">
                 <h2>👩⚕️ Наши эксперты</h2>
                 <p>Мы сотрудничаем с лучшими специалистами в области педиатрии, психологии и развития детей</p>
@@ -173,7 +202,7 @@
         </section>
 
         <!-- Наши ресурсы -->
-        <section class="welcome-section">
+        <section class="resources-section">
             <div class="welcome-container">
                 <h2>📚 Наши ресурсы</h2>
                 <p>Дополнительные материалы и поддержка для вас</p>
@@ -209,7 +238,7 @@
                 <p>Помощь и поддержка для счастливого материнства и отцовства</p>
             </div>
             <div class="footer-copyright">
-                <p>&copy; 2025  Виталий Егоров. РодительскийПомощник.</p>
+                <p>&copy; 2025 Виталий Егоров. РодительскийПомощник.</p>
             </div>
         </div>
     </footer>
