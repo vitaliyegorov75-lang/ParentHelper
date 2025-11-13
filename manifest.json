@@ -1,7 +1,7 @@
 ﻿{
-  "name": "Родительский Помощник",
-  "short_name": "РодительПомощ",
-  "description": "Помощник для родителей - уход, развитие, здоровье ребенка",
+  "name": "Умный Помощник Родителя - развитие и здоровье ребенка",
+  "short_name": "ПомощникРодителя",
+  "description": "Нативное приложение с персональным калькулятором развития, трекером прививок, дневником наблюдений и умными напоминаниями. Работает офлайн!",
   "start_url": "/ParentHelper/",
   "scope": "/ParentHelper/",
   "display": "standalone",
@@ -9,7 +9,49 @@
   "theme_color": "#4CAF50",
   "orientation": "portrait",
   "lang": "ru",
-  "categories": ["education", "health", "lifestyle"],
+  "categories": ["education", "health", "parenting", "lifestyle"],
+  "features": [
+    "Персональный калькулятор физического развития",
+    "Автоматический трекер прививок и медосмотров", 
+    "Умный дневник сна, кормлений и наблюдений",
+    "Офлайн-заметки и рекомендации",
+    "Локальные напоминания и уведомления",
+    "Графики роста и развития ребенка",
+    "Возрастные нормы и персональные советы",
+    "Безопасное локальное хранение данных"
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/main-native.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "description": "Главный экран с нативными функциями"
+    },
+    {
+      "src": "screenshots/calculator-native.png", 
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "description": "Калькулятор развития ребенка"
+    },
+    {
+      "src": "screenshots/tracker-native.png",
+      "sizes": "1080x1920", 
+      "type": "image/png",
+      "description": "Трекер прививок и осмотров"
+    },
+    {
+      "src": "screenshots/diary-native.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "description": "Дневник сна и кормлений"
+    },
+    {
+      "src": "screenshots/notes-native.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "description": "Личные заметки родителей"
+    }
+  ],
   "icons": [
     {
       "src": "icons/icon-72x72.png",
@@ -19,15 +61,17 @@
     },
     {
       "src": "icons/icon-192x192.png",
-      "sizes": "192x192",
+      "sizes": "192x192", 
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
       "src": "icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/png", 
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }

@@ -1,0 +1,721 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Трекер прививок - Помощник Родителя</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .add-vaccine-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .add-vaccine-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .vaccine-list {
+            margin-top: 20px;
+        }
+
+        .vaccine-item {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .vaccine-item.completed {
+            border-color: #4CAF50;
+            background: #f8fff9;
+        }
+
+        .vaccine-item.overdue {
+            border-color: #f44336;
+            background: #fff5f5;
+        }
+
+        .vaccine-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .vaccine-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .vaccine-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .status-pending {
+            background: #FF9800;
+            color: white;
+        }
+
+        .status-overdue {
+            background: #f44336;
+            color: white;
+        }
+
+        .vaccine-details {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .vaccine-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .complete-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .edit-btn {
+            background: #2196F3;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #f44336;
+            color: white;
+        }
+
+        .progress-section {
+            margin: 25px 0;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .progress-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .progress-percent {
+            color: #4CAF50;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .calendar-view {
+            margin-top: 25px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .calendar-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: #f8f9fa;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .day-vaccine {
+            background: #FFEB3B;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .save-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .vaccine-item {
+            animation: fadeIn 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📅 Трекер прививок</h1>
+            <p>Контроль вакцинации и медицинских осмотров</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="completedCount">0</div>
+                <div class="stat-label">Выполнено</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="pendingCount">0</div>
+                <div class="stat-label">Ожидают</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="overdueCount">0</div>
+                <div class="stat-label">Просрочено</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalCount">0</div>
+                <div class="stat-label">Всего</div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-header">
+                <div class="progress-title">Общий прогресс</div>
+                <div class="progress-percent" id="progressPercent">0%</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <button class="add-vaccine-btn" onclick="openModal()">
+            ➕ Добавить прививку
+        </button>
+
+        <div class="vaccine-list" id="vaccineList">
+            <!-- Список прививок будет генерироваться здесь -->
+        </div>
+
+        <div class="calendar-view">
+            <div class="calendar-header">
+                <div class="calendar-title">📆 Ближайшие даты</div>
+                <div class="calendar-nav">
+                    <button class="nav-btn" onclick="changeMonth(-1)">←</button>
+                    <button class="nav-btn" onclick="changeMonth(1)">→</button>
+                </div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid">
+                <!-- Календарь будет генерироваться здесь -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно добавления прививки -->
+    <div class="modal" id="vaccineModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Добавить прививку</div>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            
+            <div class="input-group">
+                <label for="vaccineName">Название прививки</label>
+                <input type="text" id="vaccineName" placeholder="Например: АКДС">
+            </div>
+
+            <div class="input-group">
+                <label for="vaccineDate">Дата выполнения</label>
+                <input type="date" id="vaccineDate">
+            </div>
+
+            <div class="input-group">
+                <label for="vaccineType">Тип</label>
+                <select id="vaccineType">
+                    <option value="mandatory">Обязательная</option>
+                    <option value="recommended">Рекомендуемая</option>
+                    <option value="additional">Дополнительная</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="vaccineNotes">Примечания</label>
+                <input type="text" id="vaccineNotes" placeholder="Дополнительная информация">
+            </div>
+
+            <button class="save-btn" onclick="saveVaccine()">
+                💾 Сохранить прививку
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Локальное хранилище прививок
+        let vaccines = JSON.parse(localStorage.getItem('childVaccines')) || [];
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+
+        // Стандартный календарь прививок
+        const standardVaccines = [
+            { name: "Гепатит B", age: "0 месяцев", type: "mandatory" },
+            { name: "БЦЖ", age: "3-7 дней", type: "mandatory" },
+            { name: "АКДС", age: "3 месяца", type: "mandatory" },
+            { name: "Полиомиелит", age: "3 месяца", type: "mandatory" },
+            { name: "КПК", age: "12 месяцев", type: "mandatory" },
+            { name: "Пневмококк", age: "2 месяца", type: "recommended" }
+        ];
+
+        function initApp() {
+            updateStats();
+            renderVaccineList();
+            renderCalendar();
+            
+            // Если прививок нет, предлагаем добавить стандартные
+            if (vaccines.length === 0) {
+                addStandardVaccines();
+            }
+        }
+
+        function addStandardVaccines() {
+            const today = new Date();
+            standardVaccines.forEach((vax, index) => {
+                const vaccineDate = new Date(today);
+                vaccineDate.setMonth(today.getMonth() + index);
+                
+                vaccines.push({
+                    id: Date.now() + index,
+                    name: vax.name,
+                    date: vaccineDate.toISOString().split('T')[0],
+                    type: vax.type,
+                    status: 'pending',
+                    notes: `Возраст: ${vax.age}`
+                });
+            });
+            saveToStorage();
+            renderVaccineList();
+            updateStats();
+        }
+
+        function openModal() {
+            document.getElementById('vaccineModal').classList.add('active');
+            document.getElementById('vaccineDate').valueAsDate = new Date();
+        }
+
+        function closeModal() {
+            document.getElementById('vaccineModal').classList.remove('active');
+        }
+
+        function saveVaccine() {
+            const name = document.getElementById('vaccineName').value;
+            const date = document.getElementById('vaccineDate').value;
+            const type = document.getElementById('vaccineType').value;
+            const notes = document.getElementById('vaccineNotes').value;
+
+            if (!name || !date) {
+                alert('Пожалуйста, заполните обязательные поля');
+                return;
+            }
+
+            const newVaccine = {
+                id: Date.now(),
+                name: name,
+                date: date,
+                type: type,
+                status: 'pending',
+                notes: notes
+            };
+
+            vaccines.push(newVaccine);
+            saveToStorage();
+            renderVaccineList();
+            updateStats();
+            closeModal();
+            
+            // Очищаем форму
+            document.getElementById('vaccineName').value = '';
+            document.getElementById('vaccineNotes').value = '';
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('childVaccines', JSON.stringify(vaccines));
+        }
+
+        function updateStats() {
+            const completed = vaccines.filter(v => v.status === 'completed').length;
+            const pending = vaccines.filter(v => v.status === 'pending').length;
+            const overdue = vaccines.filter(v => v.status === 'overdue').length;
+            const total = vaccines.length;
+            
+            const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('overdueCount').textContent = overdue;
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('progressPercent').textContent = progress + '%';
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function renderVaccineList() {
+            const list = document.getElementById('vaccineList');
+            list.innerHTML = '';
+
+            // Сортируем по дате
+            const sortedVaccines = [...vaccines].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            sortedVaccines.forEach(vaccine => {
+                const vaccineDate = new Date(vaccine.date);
+                const today = new Date();
+                const isOverdue = vaccineDate < today && vaccine.status === 'pending';
+                const status = isOverdue ? 'overdue' : vaccine.status;
+
+                if (isOverdue) {
+                    vaccine.status = 'overdue';
+                }
+
+                const vaccineItem = document.createElement('div');
+                vaccineItem.className = `vaccine-item ${status}`;
+                vaccineItem.innerHTML = `
+                    <div class="vaccine-header">
+                        <div class="vaccine-name">${vaccine.name}</div>
+                        <div class="vaccine-status status-${status}">
+                            ${status === 'completed' ? '✅ Выполнена' : 
+                              status === 'overdue' ? '⏰ Просрочена' : '⏳ Ожидает'}
+                        </div>
+                    </div>
+                    <div class="vaccine-details">
+                        <span>📅 ${formatDate(vaccineDate)}</span>
+                        <span>${getTypeBadge(vaccine.type)}</span>
+                    </div>
+                    ${vaccine.notes ? `<div class="vaccine-notes">${vaccine.notes}</div>` : ''}
+                    <div class="vaccine-actions">
+                        <button class="action-btn complete-btn" onclick="toggleVaccine(${vaccine.id})">
+                            ${status === 'completed' ? '❌ Отменить' : '✅ Выполнить'}
+                        </button>
+                        <button class="action-btn delete-btn" onclick="deleteVaccine(${vaccine.id})">
+                            🗑️ Удалить
+                        </button>
+                    </div>
+                `;
+                list.appendChild(vaccineItem);
+            });
+        }
+
+        function toggleVaccine(id) {
+            const vaccine = vaccines.find(v => v.id === id);
+            if (vaccine) {
+                vaccine.status = vaccine.status === 'completed' ? 'pending' : 'completed';
+                saveToStorage();
+                renderVaccineList();
+                updateStats();
+            }
+        }
+
+        function deleteVaccine(id) {
+            if (confirm('Удалить эту прививку?')) {
+                vaccines = vaccines.filter(v => v.id !== id);
+                saveToStorage();
+                renderVaccineList();
+                updateStats();
+            }
+        }
+
+        function getTypeBadge(type) {
+            const badges = {
+                'mandatory': '🔴 Обязательная',
+                'recommended': '🟡 Рекомендуемая', 
+                'additional': '🔵 Дополнительная'
+            };
+            return badges[type] || type;
+        }
+
+        function formatDate(date) {
+            return date.toLocaleDateString('ru-RU', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+
+        function renderCalendar() {
+            const calendarGrid = document.getElementById('calendarGrid');
+            calendarGrid.innerHTML = '';
+
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            
+            // Заголовки дней недели
+            const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+            days.forEach(day => {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.style.fontWeight = '600';
+                dayElement.textContent = day;
+                calendarGrid.appendChild(dayElement);
+            });
+
+            // Пустые ячейки до первого дня
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                const emptyElement = document.createElement('div');
+                emptyElement.className = 'calendar-day';
+                calendarGrid.appendChild(emptyElement);
+            }
+
+            // Дни месяца
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+
+                const currentDate = new Date(currentYear, currentMonth, day);
+                const hasVaccine = vaccines.some(v => {
+                    const vaxDate = new Date(v.date);
+                    return vaxDate.toDateString() === currentDate.toDateString();
+                });
+
+                if (hasVaccine) {
+                    dayElement.classList.add('day-vaccine');
+                    dayElement.title = 'Запланирована прививка';
+                }
+
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        function changeMonth(direction) {
+            currentMonth += direction;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        }
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>

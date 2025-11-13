@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>РодительскийПомощник — помощь и поддержка для молодых родителей</title>
+    <title>Умный Помощник Родителя - развитие и здоровье ребенка</title>
     
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#4CAF50"/>
@@ -26,21 +26,110 @@
       window.addEventListener('load', function() {
         navigator.serviceWorker.register('service-worker.js')
           .then(function(registration) {
-            console.log('ServiceWorker registered successfully');
+            console.log('✅ ServiceWorker registered successfully');
           })
           .catch(function(error) {
-            console.log('ServiceWorker registration failed: ', error);
+            console.log('❌ ServiceWorker registration failed: ', error);
           });
       });
     }
     </script>
+
+    <style>
+        .native-features {
+            margin: 2rem 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .native-feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .native-feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #4CAF50;
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-title {
+            color: #333;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-link {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .feature-link:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .app-description {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .app-description h2 {
+            color: #4CAF50;
+            margin-bottom: 1rem;
+        }
+
+        .offline-badge {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0.5rem;
+        }
+    </style>
 </head>
 <body>
     <!-- Хедер -->
     <header class="main-header">
         <div class="header-content">
-            <h1 class="site-title">🤱 РодительскийПомощник</h1>
-            <p class="site-subtitle">Ваш надёжный помощник в уходе за малышом</p>
+            <h1 class="site-title">🤱 Умный Помощник Родителя</h1>
+            <p class="site-subtitle">Нативное приложение для заботы о развитии и здоровье ребенка</p>
         </div>
     </header>
 
@@ -49,15 +138,13 @@
         <div class="nav-container">
             <ul class="nav-menu">
                 <li><a href="index.html" class="nav-link">🏠 Главная</a></li>
+                <li><a href="calculator.html" class="nav-link">🧮 Калькулятор</a></li>
+                <li><a href="tracker.html" class="nav-link">📅 Прививки</a></li>
+                <li><a href="diary.html" class="nav-link">📝 Дневник</a></li>
+                <li><a href="notes.html" class="nav-link">✏️ Заметки</a></li>
                 <li><a href="care.html" class="nav-link">👶 Уход</a></li>
                 <li><a href="nutrition.html" class="nav-link">🍎 Питание</a></li>
                 <li><a href="health.html" class="nav-link">🩺 Здоровье</a></li>
-                <li><a href="routine.html" class="nav-link">💤 Сон</a></li>
-                <li><a href="psychology.html" class="nav-link">💝 Психология</a></li>
-                <li><a href="support.html" class="nav-link">👭 Поддержка</a></li>
-                <li><a href="methods.html" class="nav-link">📚 Методики</a></li>
-                <li><a href="faq.html" class="nav-link">❓ Вопрос-Ответ</a></li>
-                <li><a href="contact.html" class="nav-link">📞 Контакты</a></li>
             </ul>
         </div>
     </nav>
@@ -69,34 +156,82 @@
         <section class="hero-section">
             <div class="hero-container">
                 <div class="hero-text">
-                    <h2 class="hero-title">Добро пожаловать в сообщество мудрых родителей! 🌸</h2>
-                    <p class="hero-description">Здесь каждый родитель найдёт ответы, поддержку и вдохновение</p>
+                    <h2 class="hero-title">Ваш умный помощник в заботе о ребенке! 🌟</h2>
+                    <p class="hero-description">Нативное мобильное приложение с уникальными функциями для отслеживания развития, здоровья и повседневных потребностей вашего малыша.</p>
                     
                     <div class="hero-features">
                         <div class="feature-card">
-                            <a href="pediatrics.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
-                                <span class="feature-icon">👩⚕️</span>
-                                <span class="feature-text">Советы педиатров</span>
-                            </a>
+                            <span class="feature-icon">📱</span>
+                            <span class="feature-text">Нативное приложение</span>
                         </div>
                         <div class="feature-card">
-                            <a href="support.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
-                                <span class="feature-icon">👭</span>
-                                <span class="feature-text">Поддержка родителей</span>
-                            </a>
+                            <span class="feature-icon">⚡</span>
+                            <span class="feature-text">Работает офлайн</span>
                         </div>
                         <div class="feature-card">
-                            <a href="methods.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
-                                <span class="feature-icon">📚</span>
-                                <span class="feature-text">Проверенные методики</span>
-                            </a>
+                            <span class="feature-icon">🔒</span>
+                            <span class="feature-text">Локальное хранение</span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="hero-image">
                     <img src="images/MotherBaby.jpg" alt="Счастливый родитель с малышом на руках" class="main-hero-image">
-                    <div class="image-caption">Каждый момент — особенный 💕</div>
+                    <div class="image-caption">Каждый момент развития важен 💕</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Описание приложения -->
+        <section class="app-description">
+            <h2>🚀 Уникальные нативные функции</h2>
+            <p>Наше приложение работает полностью автономно и предоставляет эксклюзивный функционал, недоступный в веб-версии:</p>
+            <div>
+                <span class="offline-badge">📊 Калькулятор развития</span>
+                <span class="offline-badge">📅 Трекер прививок</span>
+                <span class="offline-badge">📝 Дневник наблюдений</span>
+                <span class="offline-badge">✏️ Личные заметки</span>
+            </div>
+        </section>
+
+        <!-- Нативные функции -->
+        <section class="native-features">
+            <div class="section-header">
+                <h2>🎯 Основные возможности</h2>
+                <p>Уникальные функции, работающие полностью офлайн</p>
+            </div>
+            
+            <div class="features-grid">
+                <!-- Калькулятор развития -->
+                <div class="native-feature-card" onclick="location.href='calculator.html'">
+                    <div class="feature-icon">🧮</div>
+                    <h3 class="feature-title">Калькулятор развития</h3>
+                    <p class="feature-description">Автоматический расчет физических показателей ребенка по нормам ВОЗ. Отслеживание прогресса и персональные рекомендации.</p>
+                    <a href="calculator.html" class="feature-link">Открыть калькулятор</a>
+                </div>
+
+                <!-- Трекер прививок -->
+                <div class="native-feature-card" onclick="location.href='tracker.html'">
+                    <div class="feature-icon">📅</div>
+                    <h3 class="feature-title">Трекер прививок</h3>
+                    <p class="feature-description">Полный контроль вакцинации. Напоминания о прививках, календарь и статистика. Автоматическое определение просроченных.</p>
+                    <a href="tracker.html" class="feature-link">Открыть трекер</a>
+                </div>
+
+                <!-- Дневник сна и кормлений -->
+                <div class="native-feature-card" onclick="location.href='diary.html'">
+                    <div class="feature-icon">📝</div>
+                    <h3 class="feature-title">Дневник малыша</h3>
+                    <p class="feature-description">Подробный учет сна, кормлений, смены подгузов и активности. Статистика и аналитика ежедневного распорядка.</p>
+                    <a href="diary.html" class="feature-link">Открыть дневник</a>
+                </div>
+
+                <!-- Личные заметки -->
+                <div class="native-feature-card" onclick="location.href='notes.html'">
+                    <div class="feature-icon">✏️</div>
+                    <h3 class="feature-title">Личные заметки</h3>
+                    <p class="feature-description">Создавайте заметки о развитии, здоровье и важных моментах. Умный поиск и категоризация для быстрого доступа.</p>
+                    <a href="notes.html" class="feature-link">Открыть заметки</a>
                 </div>
             </div>
         </section>
@@ -104,8 +239,8 @@
         <!-- Популярные статьи -->
         <section class="popular-section">
             <div class="section-header">
-                <h2>🔥 Популярные статьи</h2>
-                <p>Самое актуальное для вас сегодня</p>
+                <h2>📚 Полезные материалы</h2>
+                <p>Статьи и рекомендации для родителей</p>
             </div>
             
             <div class="articles-grid">
@@ -129,101 +264,29 @@
                     <p class="article-excerpt">Что делать при высокой температуре</p>
                     <a href="fever-help.html" class="article-link">Читать →</a>
                 </article>
-
-                <article class="article-card">
-                    <div class="article-icon">👶</div>
-                    <h3 class="article-title">Развитие ребенка по месяцам</h3>
-                    <p class="article-excerpt">Что должен уметь малыш в каждом возрасте</p>
-                    <a href="child-development.html" class="article-link">Читать →</a>
-                </article>
-
-                <article class="article-card">
-                    <div class="article-icon">🍎</div>
-                    <h3 class="article-title">Первый прикорм</h3>
-                    <p class="article-excerpt">Как правильно вводить новые продукты</p>
-                    <a href="first-foods.html" class="article-link">Читать →</a>
-                </article>
-
-                <article class="article-card">
-                    <div class="article-icon">😊</div>
-                    <h3 class="article-title">Эмоциональное развитие</h3>
-                    <p class="article-excerpt">Как поддержать психологическое здоровье</p>
-                    <a href="emotional-development.html" class="article-link">Читать →</a>
-                </article>
-            </div>
-        </section>
-
-        <!-- Приветственный раздел -->
-        <section class="welcome-section">
-            <div class="welcome-container">
-                <h2>💝 Вы не одна!</h2>
-                <p>Мы создали это пространство, чтобы каждый родитель мог найти поддержку, получить проверенные советы и делиться своим опытом. Здесь вас понимают и всегда готовы помочь.</p>
-                
-                <div class="stats-container">
-                    <div class="stat-item">
-                        <div class="stat-number">15+</div>
-                        <div class="stat-label">Полезных статей</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">24/7</div>
-                        <div class="stat-label">Поддержка</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">1000+</div>
-                        <div class="stat-label">Довольных родителей</div>
-                    </div>
-                </div>
             </div>
         </section>
 
         <!-- Наши эксперты -->
         <section class="experts-section">
             <div class="welcome-container">
-                <h2>👩⚕️ Наши эксперты</h2>
-                <p>Мы сотрудничаем с лучшими специалистами в области педиатрии, психологии и развития детей</p>
+                <h2>👩⚕️ Профессиональная поддержка</h2>
+                <p>Все рекомендации основаны на современных медицинских стандартах и проверенных методиках</p>
                 <div class="articles-grid">
                     <article class="article-card">
                         <div class="article-icon">🩺</div>
-                        <h3 class="article-title">Педиатры</h3>
-                        <p class="article-excerpt">Сертифицированные врачи с многолетним опытом</p>
+                        <h3 class="article-title">Стандарты ВОЗ</h3>
+                        <p class="article-excerpt">Все расчеты соответствуют международным нормам развития детей</p>
                     </article>
                     <article class="article-card">
-                        <div class="article-icon">💝</div>
-                        <h3 class="article-title">Психологи</h3>
-                        <p class="article-excerpt">Специалисты по детскому развитию и семейным отношениям</p>
+                        <div class="article-icon">📊</div>
+                        <h3 class="article-title">Научный подход</h3>
+                        <p class="article-excerpt">Методики основаны на клинических исследованиях и практике</p>
                     </article>
                     <article class="article-card">
-                        <div class="article-icon">🍎</div>
-                        <h3 class="article-title">Диетологи</h3>
-                        <p class="article-excerpt">Эксперты по детскому питанию и прикорму</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- Наши ресурсы -->
-        <section class="resources-section">
-            <div class="welcome-container">
-                <h2>📚 Наши ресурсы</h2>
-                <p>Дополнительные материалы и поддержка для вас</p>
-                <div class="articles-grid">
-                    <article class="article-card">
-                        <div class="article-icon">👭</div>
-                        <h3 class="article-title">Поддержка родителей</h3>
-                        <p class="article-excerpt">Сообщество, горячие линии, психологическая помощь</p>
-                        <a href="support.html" class="article-link">Перейти →</a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-icon">📚</div>
-                        <h3 class="article-title">Проверенные методики</h3>
-                        <p class="article-excerpt">Научно обоснованные подходы к развитию детей</p>
-                        <a href="methods.html" class="article-link">Перейти →</a>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-icon">👩⚕️</div>
-                        <h3 class="article-title">Советы педиатров</h3>
-                        <p class="article-excerpt">Профессиональные рекомендации детских врачей</p>
-                        <a href="pediatrics.html" class="article-link">Перейти →</a>
+                        <div class="article-icon">🔒</div>
+                        <h3 class="article-title">Конфиденциальность</h3>
+                        <p class="article-excerpt">Все данные хранятся локально на вашем устройстве</p>
                     </article>
                 </div>
             </div>
@@ -234,11 +297,11 @@
     <footer class="main-footer">
         <div class="footer-content">
             <div class="footer-info">
-                <h3>🤱 РодительскийПомощник</h3>
-                <p>Помощь и поддержка для счастливого материнства и отцовства</p>
+                <h3>🤱 Умный Помощник Родителя</h3>
+                <p>Нативное мобильное приложение для заботы о развитии и здоровье ребенка</p>
             </div>
             <div class="footer-copyright">
-                <p>&copy; 2025 Виталий Егоров. РодительскийПомощник.</p>
+                <p>&copy; 2025 Виталий Егоров. Умный Помощник Родителя.</p>
             </div>
         </div>
     </footer>
@@ -248,67 +311,53 @@
     let deferredPrompt;
     let installButton = null;
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-        // Предотвращаем автоматическое отображение браузерного промпта
-        e.preventDefault();
-        deferredPrompt = e;
-        
-        // Создаем кнопку установки, если её ещё нет
-        if (!installButton) {
-            createInstallButton();
-        }
-        
-        // Показываем нашу кастомную кнопку
-        installButton.style.display = 'block';
-        
-        console.log('PWA installation available');
-    });
-
     function createInstallButton() {
         installButton = document.createElement('button');
-        installButton.textContent = '📱 Установить приложение';
+        installButton.innerHTML = '📱 Установить приложение<br><small>Быстрый доступ с главного экрана</small>';
+        installButton.className = 'pwa-install-btn';
         installButton.style.cssText = `
             position: fixed;
             bottom: 20px;
             right: 20px;
-            padding: 12px 20px;
-            background: #4CAF50;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
             color: white;
             border: none;
-            border-radius: 25px;
+            border-radius: 15px;
             cursor: pointer;
-            z-index: 1000;
+            z-index: 10000;
             font-size: 14px;
             font-weight: bold;
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
             transition: all 0.3s ease;
             display: none;
+            max-width: 220px;
+            text-align: center;
+            line-height: 1.3;
         `;
         
         installButton.onmouseover = function() {
-            this.style.transform = 'translateY(-2px)';
-            this.style.boxShadow = '0 6px 16px rgba(76, 175, 80, 0.4)';
+            this.style.transform = 'translateY(-3px) scale(1.02)';
+            this.style.boxShadow = '0 8px 25px rgba(76, 175, 80, 0.5)';
         };
         
         installButton.onmouseout = function() {
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = '0 4px 12px rgba(76, 175, 80, 0.3)';
+            this.style.transform = 'translateY(0) scale(1)';
+            this.style.boxShadow = '0 6px 20px rgba(76, 175, 80, 0.4)';
         };
         
         installButton.onclick = async () => {
-            if (!deferredPrompt) return;
+            if (!deferredPrompt) {
+                showManualInstallInstructions();
+                return;
+            }
             
-            // Показываем нативный промпт установки
             deferredPrompt.prompt();
-            
-            // Ждем выбора пользователя
             const { outcome } = await deferredPrompt.userChoice;
             
             if (outcome === 'accepted') {
-                console.log('PWA installed successfully');
+                showSuccessMessage();
                 installButton.style.display = 'none';
-            } else {
-                console.log('PWA installation declined');
             }
             
             deferredPrompt = null;
@@ -317,19 +366,66 @@
         document.body.appendChild(installButton);
     }
 
-    // Скрываем кнопку после успешной установки
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        if (!installButton) {
+            createInstallButton();
+        }
+        
+        installButton.style.display = 'block';
+        console.log('✅ PWA installation available');
+    });
+
     window.addEventListener('appinstalled', () => {
-        console.log('PWA was successfully installed');
+        console.log('🎉 PWA successfully installed');
         if (installButton) {
             installButton.style.display = 'none';
         }
         deferredPrompt = null;
     });
 
-    // Проверяем, не установлено ли уже приложение
     if (window.matchMedia('(display-mode: standalone)').matches) {
-        console.log('Running in standalone PWA mode');
+        console.log('📱 Running in PWA mode');
     }
+
+    function showManualInstallInstructions() {
+        alert(`Чтобы установить приложение:
+    
+1. В меню браузера (три точки)
+2. Выберите "Установить Умный Помощник Родителя"
+3. Или в Chrome DevTools → Application → Manifest → "Add to homescreen"
+
+На телефоне: меню → "Добавить на главный экран"`);
+    }
+
+    function showSuccessMessage() {
+        const message = document.createElement('div');
+        message.textContent = '🎉 Приложение успешно установлено!';
+        message.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 10px;
+            z-index: 10000;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        `;
+        document.body.appendChild(message);
+        setTimeout(() => message.remove(), 3000);
+    }
+
+    setTimeout(() => {
+        if (!deferredPrompt && !installButton) {
+            createInstallButton();
+            installButton.style.display = 'block';
+            installButton.innerHTML = '📱 Установить приложение<br><small>(Ручная установка)</small>';
+        }
+    }, 5000);
     </script>
 </body>
 </html>

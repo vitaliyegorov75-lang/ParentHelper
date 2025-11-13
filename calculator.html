@@ -1,0 +1,436 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор развития - Помощник Родителя</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .result-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .result-card.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .result-title {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            color: #666;
+        }
+
+        .result-value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .percent-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .percent-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .recommendation {
+            background: #E3F2FD;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .recommendation h4 {
+            color: #1976D2;
+            margin-bottom: 8px;
+        }
+
+        .age-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .age-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .age-tab.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .development-chart {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .chart-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .chart-label {
+            width: 120px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .chart-value {
+            flex: 1;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 10px;
+        }
+
+        .chart-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        .chart-percent {
+            width: 40px;
+            text-align: right;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧮 Калькулятор Развития</h1>
+            <p>Оценка физического развития вашего ребёнка</p>
+        </div>
+
+        <div class="age-tabs">
+            <div class="age-tab active" data-age="0-12">0-12 мес</div>
+            <div class="age-tab" data-age="1-3">1-3 года</div>
+            <div class="age-tab" data-age="3-6">3-6 лет</div>
+        </div>
+
+        <div class="input-group">
+            <label for="childAge">Возраст ребенка (месяцев)</label>
+            <input type="number" id="childAge" placeholder="Например: 6" min="0" max="72">
+        </div>
+
+        <div class="input-group">
+            <label for="childWeight">Вес (кг)</label>
+            <input type="number" id="childWeight" placeholder="Например: 7.5" step="0.1">
+        </div>
+
+        <div class="input-group">
+            <label for="childHeight">Рост (см)</label>
+            <input type="number" id="childHeight" placeholder="Например: 68">
+        </div>
+
+        <div class="input-group">
+            <label for="childGender">Пол ребенка</label>
+            <select id="childGender">
+                <option value="male">Мальчик</option>
+                <option value="female">Девочка</option>
+            </select>
+        </div>
+
+        <button class="calculate-btn" onclick="calculateDevelopment()">
+            📊 Рассчитать развитие
+        </button>
+
+        <div class="result-card" id="resultCard">
+            <div class="result-title">Результаты оценки</div>
+            
+            <div class="development-chart">
+                <div class="chart-bar">
+                    <div class="chart-label">Вес</div>
+                    <div class="chart-value">
+                        <div class="chart-fill" id="weightChart"></div>
+                    </div>
+                    <div class="chart-percent" id="weightPercent">0%</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-label">Рост</div>
+                    <div class="chart-value">
+                        <div class="chart-fill" id="heightChart"></div>
+                    </div>
+                    <div class="chart-percent" id="heightPercent">0%</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-label">Общее развитие</div>
+                    <div class="chart-value">
+                        <div class="chart-fill" id="overallChart"></div>
+                    </div>
+                    <div class="chart-percent" id="overallPercent">0%</div>
+                </div>
+            </div>
+
+            <div class="result-item">
+                <span class="result-label">Возрастная группа:</span>
+                <span class="result-value" id="ageGroup">-</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Процентиль веса:</span>
+                <span class="result-value" id="weightResult">-</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Процентиль роста:</span>
+                <span class="result-value" id="heightResult">-</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Оценка развития:</span>
+                <span class="result-value" id="developmentScore">-</span>
+            </div>
+
+            <div class="recommendation">
+                <h4>💡 Рекомендации</h4>
+                <p id="recommendationText">Введите данные для получения персональных рекомендаций</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Данные ВОЗ для развития детей (упрощённые)
+        const developmentData = {
+            '0-12': {
+                male: { weight: [3.3, 7.8, 9.6], height: [49.9, 67.8, 74.0] },
+                female: { weight: [3.2, 7.2, 9.0], height: [49.1, 66.2, 72.9] }
+            },
+            '1-3': {
+                male: { weight: [9.6, 12.2, 14.3], height: [74.0, 86.8, 95.2] },
+                female: { weight: [9.0, 11.5, 13.9], height: [72.9, 85.7, 94.1] }
+            },
+            '3-6': {
+                male: { weight: [14.3, 16.3, 19.4], height: [95.2, 105.4, 114.6] },
+                female: { weight: [13.9, 15.8, 18.6], height: [94.1, 104.1, 113.0] }
+            }
+        };
+
+        let currentAgeGroup = '0-12';
+
+        // Обработчики вкладок возраста
+        document.querySelectorAll('.age-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.age-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentAgeGroup = this.dataset.age;
+            });
+        });
+
+        function calculateDevelopment() {
+            const age = parseInt(document.getElementById('childAge').value);
+            const weight = parseFloat(document.getElementById('childWeight').value);
+            const height = parseInt(document.getElementById('childHeight').value);
+            const gender = document.getElementById('childGender').value;
+
+            if (!age || !weight || !height) {
+                alert('Пожалуйста, заполните все поля');
+                return;
+            }
+
+            const data = developmentData[currentAgeGroup][gender];
+            
+            // Расчёт процентилей (упрощённая логика)
+            const weightPercentile = calculatePercentile(weight, data.weight);
+            const heightPercentile = calculatePercentile(height, data.height);
+            const overallPercentile = (weightPercentile + heightPercentile) / 2;
+
+            // Обновление интерфейса
+            updateResults(age, weightPercentile, heightPercentile, overallPercentile);
+            
+            // Показываем карточку результатов
+            document.getElementById('resultCard').classList.add('active');
+        }
+
+        function calculatePercentile(value, norms) {
+            const [min, avg, max] = norms;
+            if (value <= min) return 10;
+            if (value >= max) return 90;
+            return Math.round(((value - min) / (max - min)) * 80 + 10);
+        }
+
+        function updateResults(age, weightPercentile, heightPercentile, overallPercentile) {
+            // Обновление графиков
+            document.getElementById('weightChart').style.width = weightPercentile + '%';
+            document.getElementById('heightChart').style.width = heightPercentile + '%';
+            document.getElementById('overallChart').style.width = overallPercentile + '%';
+            
+            document.getElementById('weightPercent').textContent = weightPercentile + '%';
+            document.getElementById('heightPercent').textContent = heightPercentile + '%';
+            document.getElementById('overallPercent').textContent = overallPercentile + '%';
+
+            // Текстовые результаты
+            document.getElementById('ageGroup').textContent = getAgeGroupText(age);
+            document.getElementById('weightResult').textContent = getPercentileText(weightPercentile);
+            document.getElementById('heightResult').textContent = getPercentileText(heightPercentile);
+            document.getElementById('developmentScore').textContent = getDevelopmentScore(overallPercentile);
+            
+            // Рекомендации
+            document.getElementById('recommendationText').textContent = getRecommendation(weightPercentile, heightPercentile);
+        }
+
+        function getAgeGroupText(age) {
+            if (age <= 12) return '0-12 месяцев';
+            if (age <= 36) return '1-3 года';
+            return '3-6 лет';
+        }
+
+        function getPercentileText(percentile) {
+            if (percentile < 25) return 'Ниже среднего';
+            if (percentile < 75) return 'В норме';
+            return 'Выше среднего';
+        }
+
+        function getDevelopmentScore(percentile) {
+            if (percentile < 30) return 'Требует внимания';
+            if (percentile < 70) return 'Нормальное';
+            return 'Опережающее';
+        }
+
+        function getRecommendation(weight, height) {
+            if (weight < 25 && height < 25) {
+                return 'Рекомендуется консультация педиатра для оценки питания и развития.';
+            } else if (weight > 75 && height > 75) {
+                return 'Ребёнок развивается опережающими темпами. Продолжайте текущий уход.';
+            } else {
+                return 'Развитие соответствует возрастным нормам. Рекомендуется регулярное наблюдение.';
+            }
+        }
+
+        // Автозаполнение для тестирования
+        document.getElementById('childAge').value = '6';
+        document.getElementById('childWeight').value = '7.5';
+        document.getElementById('childHeight').value = '68';
+    </script>
+</body>
+</html>

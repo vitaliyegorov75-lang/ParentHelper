@@ -1,0 +1,780 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личные заметки - Помощник Родителя</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .filter-tab {
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .filter-tab.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .add-note-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .add-note-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .notes-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .note-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .note-card:hover {
+            border-color: #4CAF50;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .note-card.important {
+            border-color: #FF6B6B;
+            background: #fff5f5;
+        }
+
+        .note-card.medical {
+            border-color: #2196F3;
+            background: #f3f9ff;
+        }
+
+        .note-card.development {
+            border-color: #FFD93D;
+            background: #fffdf0;
+        }
+
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .note-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 16px;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .note-category {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .category-important {
+            background: #FF6B6B;
+            color: white;
+        }
+
+        .category-medical {
+            background: #2196F3;
+            color: white;
+        }
+
+        .category-development {
+            background: #FFD93D;
+            color: #333;
+        }
+
+        .category-general {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .note-content {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .note-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .note-date {
+            font-weight: 500;
+        }
+
+        .note-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #f8f9fa;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .empty-subtitle {
+            font-size: 14px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .save-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .delete-btn {
+            background: #f44336;
+        }
+
+        .priority-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .priority-high {
+            background: #f44336;
+            color: white;
+        }
+
+        .priority-medium {
+            background: #FF9800;
+            color: white;
+        }
+
+        .priority-low {
+            background: #4CAF50;
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .note-card {
+            animation: fadeIn 0.3s ease;
+        }
+
+        .search-highlight {
+            background: yellow;
+            padding: 1px 2px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Личные заметки</h1>
+            <p>Ваши наблюдения, мысли и важные моменты</p>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number" id="totalNotes">0</div>
+                <div class="stat-label">Всего заметок</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="importantNotes">0</div>
+                <div class="stat-label">Важные</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="recentNotes">0</div>
+                <div class="stat-label">За сегодня</div>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" class="search-input" id="searchInput" placeholder="🔍 Поиск заметок...">
+        </div>
+
+        <div class="filter-tabs">
+            <div class="filter-tab active" data-category="all">Все</div>
+            <div class="filter-tab" data-category="important">🔴 Важные</div>
+            <div class="filter-tab" data-category="medical">🩺 Медицинские</div>
+            <div class="filter-tab" data-category="development">🌟 Развитие</div>
+            <div class="filter-tab" data-category="general">📋 Общие</div>
+        </div>
+
+        <button class="add-note-btn" onclick="openModal()">
+            ✏️ Новая заметка
+        </button>
+
+        <div class="notes-grid" id="notesGrid">
+            <!-- Заметки будут здесь -->
+        </div>
+    </div>
+
+    <!-- Модальное окно редактирования заметки -->
+    <div class="modal" id="noteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Новая заметка</div>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            
+            <div class="input-group">
+                <label for="noteTitle">Заголовок</label>
+                <input type="text" id="noteTitle" placeholder="О чём эта заметка?">
+            </div>
+
+            <div class="input-group">
+                <label for="noteCategory">Категория</label>
+                <select id="noteCategory">
+                    <option value="general">📋 Общая заметка</option>
+                    <option value="important">🔴 Важная заметка</option>
+                    <option value="medical">🩺 Медицинская информация</option>
+                    <option value="development">🌟 Развитие и достижения</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="notePriority">Приоритет</label>
+                <select id="notePriority">
+                    <option value="low">🟢 Низкий</option>
+                    <option value="medium">🟡 Средний</option>
+                    <option value="high">🔴 Высокий</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="noteContent">Содержание</label>
+                <textarea id="noteContent" placeholder="Опишите подробно..."></textarea>
+            </div>
+
+            <button class="save-btn" onclick="saveNote()">
+                💾 Сохранить заметку
+            </button>
+
+            <button class="save-btn delete-btn" id="deleteBtn" style="display: none; margin-top: 10px;" onclick="deleteNote()">
+                🗑️ Удалить заметку
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Локальное хранилище заметок
+        let notes = JSON.parse(localStorage.getItem('parentNotes')) || [];
+        let currentFilter = 'all';
+        let currentSearch = '';
+        let editingNoteId = null;
+
+        // Примеры начальных заметок
+        const sampleNotes = [
+            {
+                id: 1,
+                title: "Первая улыбка",
+                content: "Сегодня малыш впервые улыбнулся в ответ! Произошло это утром после кормления.",
+                category: "development",
+                priority: "high",
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            },
+            {
+                id: 2,
+                title: "Температура после прививки",
+                content: "После АКДС поднялась температура до 37.8. Давали жаропонижающее по рекомендации врача.",
+                category: "medical",
+                priority: "medium",
+                createdAt: new Date(Date.now() - 86400000).toISOString(),
+                updatedAt: new Date(Date.now() - 86400000).toISOString()
+            },
+            {
+                id: 3,
+                title: "Любимая игрушка",
+                content: "Обнаружили, что больше всего нравится погремушка с синими бусинами. Смеётся когда её трясём.",
+                category: "general",
+                priority: "low",
+                createdAt: new Date(Date.now() - 172800000).toISOString(),
+                updatedAt: new Date(Date.now() - 172800000).toISOString()
+            }
+        ];
+
+        function initApp() {
+            // Добавляем примеры заметок если нет своих
+            if (notes.length === 0) {
+                notes = sampleNotes;
+                saveToStorage();
+            }
+            
+            updateStats();
+            renderNotes();
+            setupEventListeners();
+        }
+
+        function setupEventListeners() {
+            // Поиск
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                currentSearch = e.target.value.toLowerCase();
+                renderNotes();
+            });
+
+            // Фильтры
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.category;
+                    renderNotes();
+                });
+            });
+        }
+
+        function openModal(noteId = null) {
+            editingNoteId = noteId;
+            const modal = document.getElementById('noteModal');
+            const deleteBtn = document.getElementById('deleteBtn');
+            
+            if (noteId) {
+                // Редактирование существующей заметки
+                const note = notes.find(n => n.id === noteId);
+                if (note) {
+                    document.getElementById('modalTitle').textContent = 'Редактировать заметку';
+                    document.getElementById('noteTitle').value = note.title;
+                    document.getElementById('noteCategory').value = note.category;
+                    document.getElementById('notePriority').value = note.priority;
+                    document.getElementById('noteContent').value = note.content;
+                    deleteBtn.style.display = 'block';
+                }
+            } else {
+                // Новая заметка
+                document.getElementById('modalTitle').textContent = 'Новая заметка';
+                document.getElementById('noteTitle').value = '';
+                document.getElementById('noteCategory').value = 'general';
+                document.getElementById('notePriority').value = 'medium';
+                document.getElementById('noteContent').value = '';
+                deleteBtn.style.display = 'none';
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('noteModal').classList.remove('active');
+            editingNoteId = null;
+        }
+
+        function saveNote() {
+            const title = document.getElementById('noteTitle').value.trim();
+            const category = document.getElementById('noteCategory').value;
+            const priority = document.getElementById('notePriority').value;
+            const content = document.getElementById('noteContent').value.trim();
+
+            if (!title || !content) {
+                alert('Пожалуйста, заполните заголовок и содержание');
+                return;
+            }
+
+            const now = new Date().toISOString();
+
+            if (editingNoteId) {
+                // Обновление существующей заметки
+                const noteIndex = notes.findIndex(n => n.id === editingNoteId);
+                if (noteIndex !== -1) {
+                    notes[noteIndex] = {
+                        ...notes[noteIndex],
+                        title,
+                        category,
+                        priority,
+                        content,
+                        updatedAt: now
+                    };
+                }
+            } else {
+                // Создание новой заметки
+                const newNote = {
+                    id: Date.now(),
+                    title,
+                    category,
+                    priority,
+                    content,
+                    createdAt: now,
+                    updatedAt: now
+                };
+                notes.unshift(newNote);
+            }
+
+            saveToStorage();
+            renderNotes();
+            updateStats();
+            closeModal();
+        }
+
+        function deleteNote() {
+            if (editingNoteId && confirm('Удалить эту заметку?')) {
+                notes = notes.filter(n => n.id !== editingNoteId);
+                saveToStorage();
+                renderNotes();
+                updateStats();
+                closeModal();
+            }
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('parentNotes', JSON.stringify(notes));
+        }
+
+        function renderNotes() {
+            const grid = document.getElementById('notesGrid');
+            let filteredNotes = [...notes];
+
+            // Применяем фильтр
+            if (currentFilter !== 'all') {
+                filteredNotes = filteredNotes.filter(note => note.category === currentFilter);
+            }
+
+            // Применяем поиск
+            if (currentSearch) {
+                filteredNotes = filteredNotes.filter(note => 
+                    note.title.toLowerCase().includes(currentSearch) || 
+                    note.content.toLowerCase().includes(currentSearch)
+                );
+            }
+
+            // Сортируем по дате (новые сверху)
+            filteredNotes.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+
+            if (filteredNotes.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📝</div>
+                        <div class="empty-title">Заметок не найдено</div>
+                        <div class="empty-subtitle">
+                            ${currentSearch ? 'Попробуйте изменить поисковый запрос' : 
+                              currentFilter !== 'all' ? 'Попробуйте выбрать другую категорию' : 
+                              'Создайте первую заметку!'}
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = '';
+
+            filteredNotes.forEach(note => {
+                const noteDate = new Date(note.updatedAt);
+                const noteCard = document.createElement('div');
+                noteCard.className = `note-card ${note.category}`;
+                noteCard.onclick = () => openModal(note.id);
+
+                // Подсветка поиска
+                let displayTitle = note.title;
+                let displayContent = note.content;
+
+                if (currentSearch) {
+                    const regex = new RegExp(`(${currentSearch})`, 'gi');
+                    displayTitle = displayTitle.replace(regex, '<span class="search-highlight">$1</span>');
+                    displayContent = displayContent.replace(regex, '<span class="search-highlight">$1</span>');
+                }
+
+                // Обрезаем длинный контент
+                if (displayContent.length > 150) {
+                    displayContent = displayContent.substring(0, 150) + '...';
+                }
+
+                const categoryLabels = {
+                    'important': '🔴 Важная',
+                    'medical': '🩺 Медицинская',
+                    'development': '🌟 Развитие',
+                    'general': '📋 Общая'
+                };
+
+                const priorityLabels = {
+                    'high': '🔴 Высокий',
+                    'medium': '🟡 Средний',
+                    'low': '🟢 Низкий'
+                };
+
+                noteCard.innerHTML = `
+                    <div class="note-header">
+                        <div class="note-title">${displayTitle}</div>
+                        <div class="note-category category-${note.category}">
+                            ${categoryLabels[note.category]}
+                        </div>
+                    </div>
+                    <div class="note-content">${displayContent}</div>
+                    <div class="note-footer">
+                        <div class="note-date">
+                            ${noteDate.toLocaleDateString('ru-RU')}
+                            <span class="priority-badge priority-${note.priority}">
+                                ${priorityLabels[note.priority]}
+                            </span>
+                        </div>
+                        <div class="note-actions">
+                            <button class="action-btn" onclick="event.stopPropagation(); openModal(${note.id})">✏️</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(noteCard);
+            });
+        }
+
+        function updateStats() {
+            const total = notes.length;
+            const important = notes.filter(n => n.category === 'important').length;
+            const today = new Date().toDateString();
+            const recent = notes.filter(n => new Date(n.createdAt).toDateString() === today).length;
+
+            document.getElementById('totalNotes').textContent = total;
+            document.getElementById('importantNotes').textContent = important;
+            document.getElementById('recentNotes').textContent = recent;
+        }
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
