@@ -528,6 +528,27 @@
         .mb-4 {
             margin-bottom: 24px;
         }
+
+        /* === СТИЛИ ДЛЯ МЕНЮ "ЕЩЁ" === */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(0); }
+            to { transform: translateY(100%); }
+        }
     </style>
 </head>
 <body>
@@ -786,9 +807,106 @@
             console.log('Уже на главной странице');
         }
 
+        // === ФУНКЦИИ ДЛЯ КНОПКИ "ЕЩЁ" ===
+        
         function openMore() {
-            // Можно добавить меню дополнительных функций
-            alert('Открывается меню дополнительных функций');
+            // Создаем модальное окно
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                display: flex;
+                align-items: flex-end;
+                justify-content: center;
+                z-index: 2000;
+                animation: fadeIn 0.3s ease;
+            `;
+
+            const menu = document.createElement('div');
+            menu.style.cssText = `
+                background: white;
+                width: 100%;
+                max-width: 400px;
+                border-radius: 20px 20px 0 0;
+                padding: 20px;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+                animation: slideUp 0.3s ease;
+            `;
+
+            menu.innerHTML = `
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h3 style="color: #2C3E50; margin-bottom: 8px;">Дополнительно</h3>
+                    <div style="height: 4px; width: 40px; background: #4CAF50; margin: 0 auto; border-radius: 2px;"></div>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <button onclick="openContacts()" style="
+                        background: #F8F9FA;
+                        border: 2px solid #E0E0E0;
+                        border-radius: 12px;
+                        padding: 16px;
+                        font-size: 1rem;
+                        font-weight: 600;
+                        color: #2C3E50;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        transition: all 0.3s ease;
+                    " onmouseover="this.style.background='#E8F5E8'; this.style.borderColor='#4CAF50'"
+                    onmouseout="this.style.background='#F8F9FA'; this.style.borderColor='#E0E0E0'">
+                        <span style="font-size: 1.2rem;">📞</span>
+                        <span>Контакты</span>
+                    </button>
+                    
+                    <button onclick="closeMoreMenu()" style="
+                        background: white;
+                        border: 2px solid #E0E0E0;
+                        border-radius: 12px;
+                        padding: 16px;
+                        font-size: 1rem;
+                        font-weight: 600;
+                        color: #666;
+                        cursor: pointer;
+                        margin-top: 8px;
+                    ">
+                        Закрыть
+                    </button>
+                </div>
+            `;
+
+            modal.appendChild(menu);
+            document.body.appendChild(modal);
+
+            // Закрытие при клике вне меню
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeMoreMenu();
+                }
+            });
+        }
+
+        // Функция открытия контактов
+        function openContacts() {
+            window.location.href = 'contact.html';
+        }
+
+        // Функция закрытия меню
+        function closeMoreMenu() {
+            const modal = document.querySelector('div[style*="position: fixed"][style*="z-index: 2000"]');
+            if (modal) {
+                modal.style.animation = 'fadeOut 0.3s ease';
+                const menu = modal.querySelector('div');
+                menu.style.animation = 'slideDown 0.3s ease';
+                
+                setTimeout(() => {
+                    document.body.removeChild(modal);
+                }, 300);
+            }
         }
 
         // === ЗАГРУЗКА СТАТИСТИКИ ===
@@ -802,7 +920,7 @@
                 };
                 
                 document.getElementById('childAge').textContent = stats.childAge;
-                document.getElementById('vaccinesDone').textContent = stats.vinesDone;
+                document.getElementById('vaccinesDone').textContent = stats.vaccinesDone;
                 document.getElementById('measurements').textContent = stats.measurements;
                 document.getElementById('overallProgress').textContent = stats.progress + '%';
                 
