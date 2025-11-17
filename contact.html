@@ -4,11 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Контакты - РодительскийПомощник</title>
+    <meta name="description" content="Свяжитесь с нами для обратной связи, поддержки и предложений">
     <meta name="theme-color" content="#4CAF50">
+    
+    <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
+    
+    <!-- Иконки -->
     <link rel="icon" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    
     <style>
-        /* === ОСНОВНЫЕ СТИЛИ === */
         * {
             margin: 0;
             padding: 0;
@@ -37,19 +43,21 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: var(--background);
             color: var(--text-dark);
             line-height: 1.6;
+            overflow-x: hidden;
             padding-bottom: 80px;
         }
 
         .app-container {
             max-width: 100%;
+            position: relative;
             min-height: 100vh;
         }
 
-        /* === ШАПКА === */
+        /* Шапка */
         .app-header {
             background: var(--gradient-primary);
             color: white;
@@ -59,9 +67,11 @@
         }
 
         .header-content {
+            position: relative;
+            z-index: 2;
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
         }
 
         .back-button {
@@ -71,124 +81,115 @@
             font-size: 1.5rem;
             cursor: pointer;
             padding: 8px;
+            border-radius: 50%;
+            transition: var(--transition);
         }
 
-        .header-title {
+        .back-button:active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .app-title {
             font-size: 1.3rem;
-            font-weight: 600;
+            font-weight: 700;
         }
 
-        /* === ОСНОВНОЙ КОНТЕНТ === */
+        .header-background {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 120px;
+            background: rgba(255,255,255,0.1);
+            clip-path: polygon(100% 0, 100% 100%, 0 100%);
+        }
+
+        /* Основной контент */
         .main-content {
             padding: 20px 16px;
-        }
-
-        /* === КОНТАКТНАЯ ИНФОРМАЦИЯ === */
-        .contact-section {
-            margin-bottom: 32px;
         }
 
         .section-title {
             font-size: 1.3rem;
             font-weight: 600;
             color: var(--text-dark);
-            margin-bottom: 20px;
+            margin: 24px 0 16px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .section-title .icon {
-            font-size: 1.5rem;
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), transparent);
         }
 
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
-
-        .contact-card {
+        /* Контактная информация */
+        .contact-info {
             background: var(--surface);
             border-radius: var(--border-radius);
             padding: 24px;
+            margin-bottom: 24px;
             box-shadow: var(--shadow);
             border-left: 4px solid var(--primary);
         }
 
-        .contact-card.info {
-            border-left-color: var(--secondary);
-            background: linear-gradient(135deg, #fff, #f0f8ff);
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
         }
 
-        .contact-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 16px;
+        .contact-item:last-child {
+            border-bottom: none;
         }
 
         .contact-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
+            background: var(--primary-light);
+            color: var(--primary);
             flex-shrink: 0;
         }
 
-        .contact-icon.primary { background: var(--primary-light); color: var(--primary); }
-        .contact-icon.info { background: #e3f2fd; color: var(--secondary); }
-
-        .contact-title {
-            font-size: 1.1rem;
+        .contact-details h3 {
+            font-size: 1rem;
             font-weight: 600;
             color: var(--text-dark);
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
-        .contact-content {
+        .contact-details p {
+            font-size: 0.9rem;
             color: var(--text-medium);
-            font-size: 0.95rem;
-            line-height: 1.5;
         }
 
-        .contact-list {
-            list-style: none;
-            margin: 12px 0;
-        }
-
-        .contact-list li {
-            padding: 8px 0;
-            padding-left: 24px;
-            position: relative;
-        }
-
-        .contact-list li::before {
-            content: '•';
+        .contact-link {
             color: var(--primary);
-            font-weight: bold;
-            position: absolute;
-            left: 8px;
+            text-decoration: none;
+            font-weight: 500;
         }
 
-        /* === ФОРМА ОБРАТНОЙ СВЯЗИ === */
-        .form-section {
+        .contact-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Форма обратной связи */
+        .contact-form {
             background: var(--surface);
             border-radius: var(--border-radius);
             padding: 24px;
             box-shadow: var(--shadow);
-            margin-bottom: 32px;
-        }
-
-        .form-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--text-dark);
-            text-align: center;
+            margin-bottom: 24px;
         }
 
         .form-group {
@@ -197,23 +198,24 @@
 
         .form-label {
             display: block;
-            margin-bottom: 8px;
+            font-size: 0.9rem;
             font-weight: 600;
             color: var(--text-dark);
-            font-size: 0.95rem;
+            margin-bottom: 8px;
         }
 
-        .form-input, .form-textarea, .form-select {
+        .form-input, .form-textarea {
             width: 100%;
-            padding: 14px 16px;
+            padding: 16px;
             border: 2px solid var(--border);
             border-radius: var(--border-radius-sm);
             font-size: 1rem;
+            font-family: inherit;
             transition: var(--transition);
             background: var(--surface);
         }
 
-        .form-input:focus, .form-textarea:focus, .form-select:focus {
+        .form-input:focus, .form-textarea:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
@@ -222,144 +224,140 @@
         .form-textarea {
             resize: vertical;
             min-height: 120px;
-            font-family: inherit;
-        }
-
-        .form-select {
-            cursor: pointer;
         }
 
         .submit-button {
-            width: 100%;
             background: var(--gradient-primary);
             color: white;
             border: none;
-            padding: 16px;
             border-radius: var(--border-radius-sm);
+            padding: 16px 32px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
-        }
-
-        .submit-button:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
+            width: 100%;
         }
 
         .submit-button:active {
-            transform: translateY(0);
+            transform: scale(0.98);
+            box-shadow: var(--shadow-hover);
         }
 
-        .form-note {
+        .submit-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Сообщения */
+        .message {
+            padding: 16px;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 16px;
             text-align: center;
-            color: var(--text-light);
-            font-size: 0.85rem;
-            margin-top: 16px;
-            line-height: 1.4;
+            font-weight: 500;
         }
 
-        /* === СООБЩЕНИЕ ОТПРАВЛЕНО === */
-        .success-message {
+        .message.success {
             background: #E8F5E8;
-            border: 2px solid #4CAF50;
+            color: #2E7D32;
+            border: 1px solid #4CAF50;
+        }
+
+        .message.error {
+            background: #FFEBEE;
+            color: #C62828;
+            border: 1px solid #EF5350;
+        }
+
+        .message.loading {
+            background: #E3F2FD;
+            color: #1565C0;
+            border: 1px solid #2196F3;
+        }
+
+        /* Информация о поддержке */
+        .support-info {
+            background: var(--surface);
             border-radius: var(--border-radius);
             padding: 20px;
-            text-align: center;
-            margin-bottom: 24px;
-            display: none;
-        }
-
-        .success-icon {
-            font-size: 3rem;
-            margin-bottom: 16px;
-        }
-
-        .success-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 8px;
-        }
-
-        .success-text {
-            color: var(--text-medium);
-            font-size: 0.95rem;
-        }
-
-        /* === БЫСТРЫЕ КОНТАКТЫ === */
-        .quick-contacts {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-top: 24px;
-        }
-
-        .quick-contact {
-            background: var(--surface);
-            border-radius: var(--border-radius-sm);
-            padding: 20px;
-            text-align: center;
             box-shadow: var(--shadow);
-            transition: var(--transition);
-            cursor: pointer;
-            border: 1px solid var(--border);
+            text-align: center;
         }
 
-        .quick-contact:active {
-            transform: scale(0.95);
+        .support-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
         }
 
-        .quick-icon {
-            font-size: 2rem;
-            margin-bottom: 8px;
-        }
-
-        .quick-title {
-            font-size: 0.9rem;
+        .support-info h3 {
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--text-dark);
-            margin-bottom: 4px;
+            margin-bottom: 8px;
         }
 
-        .quick-value {
-            font-size: 0.85rem;
-            color: var(--text-light);
-        }
-
-        /* === ФУТЕР === */
-        .app-footer {
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            padding: 20px 16px;
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .footer-content {
-            color: var(--text-light);
-            font-size: 0.85rem;
-            line-height: 1.4;
-        }
-
-        .footer-content strong {
+        .support-info p {
+            font-size: 0.9rem;
             color: var(--text-medium);
-            font-weight: 600;
+            line-height: 1.5;
         }
 
-        .footer-version {
-            display: block;
-            margin-top: 4px;
-            font-size: 0.8rem;
-            opacity: 0.8;
+        /* Нижняя навигация */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 12px 0;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+            border-top: 1px solid var(--border);
+            z-index: 1000;
         }
 
-        /* === АДАПТИВНОСТЬ === */
+        .nav-item {
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            transition: var(--transition);
+            color: var(--text-light);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-icon {
+            font-size: 1.3rem;
+        }
+
+        .nav-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        /* Адаптивность */
         @media (min-width: 768px) {
             .app-container {
                 max-width: 400px;
                 margin: 0 auto;
                 box-shadow: 0 0 40px rgba(0,0,0,0.1);
+                min-height: 100vh;
+            }
+            
+            .bottom-nav {
+                max-width: 400px;
+                left: 50%;
+                transform: translateX(-50%);
             }
         }
     </style>
@@ -370,222 +368,195 @@
         <header class="app-header">
             <div class="header-content">
                 <button class="back-button" onclick="goBack()">←</button>
-                <h1 class="header-title">📞 Контакты</h1>
+                <h1 class="app-title">Контакты</h1>
             </div>
+            <div class="header-background"></div>
         </header>
 
         <!-- Основной контент -->
         <main class="main-content">
-            <!-- Сообщение об успешной отправке -->
-            <div class="success-message" id="successMessage">
-                <div class="success-icon">✅</div>
-                <h3 class="success-title">Сообщение отправлено!</h3>
-                <p class="success-text">Мы ответим вам в течение 24 часов</p>
-            </div>
+            <!-- Контактная информация -->
+            <section class="contact-info">
+                <h2 class="section-title">Контактная информация</h2>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-details">
+                        <h3>Email для связи</h3>
+                        <p>
+                            <a href="mailto:ParentHelper@yandex.ru" class="contact-link">
+                                ParentHelper@yandex.ru
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">🕒</div>
+                    <div class="contact-details">
+                        <h3>Время ответа</h3>
+                        <p>24-48 часов в рабочие дни</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">🌐</div>
+                    <div class="contact-details">
+                        <h3>Веб-версия</h3>
+                        <p>
+                            <a href="https://vitaliyegorov75-lang.github.io/ParentHelper/" 
+                               class="contact-link" target="_blank">
+                                Открыть в браузере
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </section>
 
             <!-- Форма обратной связи -->
-            <section class="form-section">
-                <h2 class="form-title">Обратная связь</h2>
-                <form id="contactForm" action="https://formspree.io/f/mwpazqoz" method="POST">
+            <section class="contact-form">
+                <h2 class="section-title">Обратная связь</h2>
+                
+                <div id="formMessages"></div>
+                
+                <form id="feedbackForm" action="https://formspree.io/f/mwpazqoz" method="POST">
                     <div class="form-group">
-                        <label class="form-label" for="name">Ваше имя *</label>
-                        <input type="text" class="form-input" id="name" name="name" required placeholder="Как к вам обращаться?">
+                        <label class="form-label" for="name">Ваше имя</label>
+                        <input type="text" id="name" name="name" class="form-input" 
+                               placeholder="Как к вам обращаться?" required>
                     </div>
-
+                    
                     <div class="form-group">
-                        <label class="form-label" for="email">Email *</label>
-                        <input type="email" class="form-input" id="email" name="email" required placeholder="your@email.com">
+                        <label class="form-label" for="email">Ваш email</label>
+                        <input type="email" id="email" name="email" class="form-input" 
+                               placeholder="Для ответа на ваше обращение" required>
                     </div>
-
+                    
                     <div class="form-group">
-                        <label class="form-label" for="subject">Тема сообщения</label>
-                        <select class="form-select" id="subject" name="subject">
-                            <option value="">Выберите тему...</option>
-                            <option value="Вопрос по приложению">Вопрос по приложению</option>
-                            <option value="Техническая проблема">Техническая проблема</option>
-                            <option value="Предложение по улучшению">Предложение по улучшению</option>
-                            <option value="Сотрудничество">Сотрудничество</option>
-                            <option value="Другое">Другое</option>
-                        </select>
+                        <label class="form-label" for="message">Сообщение</label>
+                        <textarea id="message" name="message" class="form-textarea" 
+                                  placeholder="Опишите ваш вопрос, предложение или проблему..." 
+                                  required></textarea>
                     </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="message">Ваше сообщение *</label>
-                        <textarea class="form-textarea" id="message" name="message" required placeholder="Опишите ваш вопрос или предложение подробно..."></textarea>
-                    </div>
-
-                    <button type="submit" class="submit-button">Отправить сообщение</button>
+                    
+                    <button type="submit" class="submit-button" id="submitButton">
+                        Отправить сообщение
+                    </button>
                 </form>
-                <p class="form-note">* Поля, обязательные для заполнения</p>
             </section>
 
-            <!-- Контактная информация -->
-            <section class="contact-section">
-                <h2 class="section-title">
-                    <span class="icon">ℹ️</span>
-                    Контактная информация
-                </h2>
-                
-                <div class="contact-grid">
-                    <div class="contact-card info">
-                        <div class="contact-header">
-                            <div class="contact-icon info">📧</div>
-                            <div>
-                                <h3 class="contact-title">Электронная почта</h3>
-                            </div>
-                        </div>
-                        <div class="contact-content">
-                            <p>По всем вопросам обращайтесь через форму выше или напрямую:</p>
-                            <ul class="contact-list">
-                                <li><strong>Поддержка:</strong> vitaliyegorov75@yandex.ru</li>
-                                <li><strong>Ответ в течение:</strong> 24 часов</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="contact-card">
-                        <div class="contact-header">
-                            <div class="contact-icon primary">🕒</div>
-                            <div>
-                                <h3 class="contact-title">Время работы поддержки</h3>
-                            </div>
-                        </div>
-                        <div class="contact-content">
-                            <ul class="contact-list">
-                                <li><strong>Понедельник - Пятница:</strong> 9:00 - 18:00</li>
-                                <li><strong>Суббота:</strong> 10:00 - 16:00</li>
-                                <li><strong>Воскресенье:</strong> выходной</li>
-                                <li>В нерабочее время - отвечаем на следующий день</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            <!-- Информация о поддержке -->
+            <section class="support-info">
+                <div class="support-icon">💚</div>
+                <h3>Мы всегда готовы помочь!</h3>
+                <p>
+                    Ваши отзывы и предложения помогают нам делать приложение лучше. 
+                    Не стесняйтесь обращаться с любыми вопросами!
+                </p>
             </section>
-
-            <!-- Быстрые контакты -->
-            <div class="quick-contacts">
-                <div class="quick-contact" onclick="openEmail()">
-                    <div class="quick-icon">📧</div>
-                    <div class="quick-title">Email</div>
-                    <div class="quick-value">Написать</div>
-                </div>
-                <div class="quick-contact" onclick="openGitHub()">
-                    <div class="quick-icon">💻</div>
-                    <div class="quick-title">GitHub</div>
-                    <div class="quick-value">Проект</div>
-                </div>
-            </div>
-
-            <!-- Дополнительная информация -->
-            <section class="contact-section">
-                <h2 class="section-title">
-                    <span class="icon">💬</span>
-                    Частые вопросы
-                </h2>
-                
-                <div class="contact-card">
-                    <div class="contact-header">
-                        <div class="contact-icon primary">❓</div>
-                        <div>
-                            <h3 class="contact-title">Перед обращением</h3>
-                        </div>
-                    </div>
-                    <div class="contact-content">
-                        <ul class="contact-list">
-                            <li>Проверьте раздел "Вопрос-ответ" в приложении</li>
-                            <li>Укажите версию приложения в сообщении</li>
-                            <li>Опишите проблему максимально подробно</li>
-                            <li>При технических проблемах - укажите модель устройства</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Футер -->
-            <footer class="app-footer">
-                <div class="footer-content">
-                    <strong>© 2025 Виталий Егоров. РодительскийПомощник</strong>
-                    <span class="footer-version">Версия 2.0</span>
-                </div>
-            </footer>
         </main>
+
+        <!-- Нижняя навигация -->
+        <nav class="bottom-nav">
+            <button class="nav-item" onclick="goHome()">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Главная</span>
+            </button>
+            <button class="nav-item" onclick="openDiary()">
+                <span class="nav-icon">📅</span>
+                <span class="nav-label">Дневник</span>
+            </button>
+            <button class="nav-item" onclick="openCalculator()">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Аналитика</span>
+            </button>
+            <button class="nav-item active">
+                <span class="nav-icon">📞</span>
+                <span class="nav-label">Контакты</span>
+            </button>
+        </nav>
     </div>
 
     <script>
+        // Навигация
         function goBack() {
             window.history.back();
         }
 
-        // Обработка формы
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('contactForm');
-            const successMessage = document.getElementById('successMessage');
-
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const formData = new FormData(form);
-                const submitButton = form.querySelector('.submit-button');
-                
-                // Показываем индикатор загрузки
-                submitButton.textContent = 'Отправка...';
-                submitButton.disabled = true;
-
-                try {
-                    const response = await fetch(form.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    });
-
-                    if (response.ok) {
-                        // Показываем сообщение об успехе
-                        successMessage.style.display = 'block';
-                        form.reset();
-                        
-                        // Прокручиваем к сообщению об успехе
-                        successMessage.scrollIntoView({ behavior: 'smooth' });
-                        
-                        // Скрываем сообщение через 5 секунд
-                        setTimeout(() => {
-                            successMessage.style.display = 'none';
-                        }, 5000);
-                    } else {
-                        alert('Произошла ошибка при отправке. Попробуйте еще раз.');
-                    }
-                } catch (error) {
-                    alert('Произошла ошибка при отправке. Проверьте подключение к интернету.');
-                } finally {
-                    // Восстанавливаем кнопку
-                    submitButton.textContent = 'Отправить сообщение';
-                    submitButton.disabled = false;
-                }
-            });
-
-            // Анимации при загрузке
-            setTimeout(() => {
-                document.querySelectorAll('.contact-card').forEach((card, index) => {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(20px)';
-                    
-                    setTimeout(() => {
-                        card.style.transition = 'all 0.5s ease';
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, index * 100);
-                });
-            }, 300);
-        });
-
-        // Быстрые действия
-        function openEmail() {
-            window.location.href = 'mailto:vitaliyegorov75@yandex.ru?subject=Вопрос по приложению РодительскийПомощник';
+        function goHome() {
+            window.location.href = 'index.html';
         }
 
-        function openGitHub() {
-            window.open('https://github.com/vitaliyegorov75-lang/ParentHelper', '_blank');
+        function openDiary() {
+            window.location.href = 'diary.html';
+        }
+
+        function openCalculator() {
+            window.location.href = 'calculator.html';
+        }
+
+        // Обработка формы
+        document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const submitButton = document.getElementById('submitButton');
+            const messagesContainer = document.getElementById('formMessages');
+            
+            // Показываем индикатор загрузки
+            submitButton.disabled = true;
+            submitButton.textContent = 'Отправка...';
+            
+            messagesContainer.innerHTML = `
+                <div class="message loading">
+                    📨 Отправляем ваше сообщение...
+                </div>
+            `;
+            
+            try {
+                const formData = new FormData(form);
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    messagesContainer.innerHTML = `
+                        <div class="message success">
+                            ✅ Сообщение успешно отправлено! Ответим в течение 24 часов.
+                        </div>
+                    `;
+                    form.reset();
+                } else {
+                    throw new Error('Ошибка отправки');
+                }
+                
+            } catch (error) {
+                messagesContainer.innerHTML = `
+                    <div class="message error">
+                        ❌ Ошибка отправки. Пожалуйста, напишите нам на ParentHelper@yandex.ru
+                    </div>
+                `;
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Отправить сообщение';
+            }
+        });
+
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker зарегистрирован');
+                    })
+                    .catch(error => {
+                        console.log('Ошибка регистрации Service Worker:', error);
+                    });
+            });
         }
     </script>
 </body>
