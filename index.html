@@ -52,15 +52,13 @@
             color: var(--text-dark);
             line-height: 1.6;
             overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            padding-bottom: 80px; /* Место для навигации */
         }
 
         .app-container {
-            flex: 1;
             max-width: 100%;
             position: relative;
+            min-height: 100vh;
         }
 
         /* === ШАПКА === */
@@ -108,8 +106,7 @@
 
         /* === ОСНОВНОЙ КОНТЕНТ === */
         .main-content {
-            padding: 20px 16px 100px;
-            flex: 1;
+            padding: 20px 16px 30px; /* Уменьшил нижний отступ */
         }
 
         .section-title {
@@ -427,7 +424,9 @@
             border-top: 1px solid var(--border);
             padding: 20px 16px;
             text-align: center;
-            margin-top: auto;
+            position: relative;
+            z-index: 999; /* Выше навигации */
+            margin-top: 40px;
         }
 
         .footer-content {
@@ -502,12 +501,18 @@
             }
             
             .main-content {
-                padding-bottom: 120px;
+                padding-bottom: 40px;
             }
 
             .app-footer {
                 position: relative;
                 bottom: auto;
+            }
+
+            .bottom-nav {
+                max-width: 400px;
+                left: 50%;
+                transform: translateX(-50%);
             }
         }
 
@@ -705,15 +710,15 @@
                     </div>
                 </div>
             </section>
-        </main>
 
-        <!-- Футер -->
-        <footer class="app-footer">
-            <div class="footer-content">
-                <strong>© 2025 Виталий Егоров. РодительскийПомощник</strong>
-                <span class="footer-version">Версия 2.0</span>
-            </div>
-        </footer>
+            <!-- ФУТЕР ПЕРЕД НАВИГАЦИЕЙ -->
+            <footer class="app-footer">
+                <div class="footer-content">
+                    <strong>© 2025 Виталий Егоров. РодительскийПомощник</strong>
+                    <span class="footer-version">Версия 2.0</span>
+                </div>
+            </footer>
+        </main>
 
         <!-- Нижняя навигация -->
         <nav class="bottom-nav">
@@ -797,7 +802,7 @@
                 };
                 
                 document.getElementById('childAge').textContent = stats.childAge;
-                document.getElementById('vaccinesDone').textContent = stats.vaccinesDone;
+                document.getElementById('vaccinesDone').textContent = stats.vinesDone;
                 document.getElementById('measurements').textContent = stats.measurements;
                 document.getElementById('overallProgress').textContent = stats.progress + '%';
                 
