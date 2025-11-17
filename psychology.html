@@ -3,626 +3,658 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Психология малыша - РодительскийПомощник</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Психология развития - РодительскийПомощник</title>
+    <meta name="theme-color" content="#4CAF50">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192x192.png">
     <style>
-        .psychology-categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
+        /* === ОСНОВНЫЕ СТИЛИ === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
-        .psychology-category {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            display: block;
+
+        :root {
+            --primary: #4CAF50;
+            --primary-dark: #45a049;
+            --primary-light: #E8F5E8;
+            --secondary: #2196F3;
+            --accent: #FF9800;
+            --warning: #FF6B6B;
+            --text-dark: #2C3E50;
+            --text-medium: #546E7A;
+            --text-light: #78909C;
+            --background: #F8F9FA;
+            --surface: #FFFFFF;
+            --border: #E0E0E0;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
+            --gradient-primary: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            --border-radius: 16px;
+            --border-radius-sm: 12px;
+            --transition: all 0.3s ease;
         }
-        
-        .psychology-category:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            text-decoration: none;
-            color: inherit;
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-bottom: 80px;
         }
-        
-        .category-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+
+        .app-container {
+            max-width: 100%;
+            min-height: 100vh;
         }
-        
-        .category-title {
+
+        /* === ШАПКА === */
+        .app-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 20px 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .header-title {
             font-size: 1.3rem;
-            color: #333;
-            margin-bottom: 1rem;
             font-weight: 600;
         }
-        
-        .category-description {
-            color: #666;
-            line-height: 1.5;
+
+        /* === ОСНОВНОЙ КОНТЕНТ === */
+        .main-content {
+            padding: 20px 16px;
         }
-        
-        .content-section {
-            background: white;
-            border-radius: 15px;
-            padding: 2.5rem;
-            margin: 2rem 0;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+
+        /* === ВОЗРАСТНЫЕ ЭТАПЫ === */
+        .age-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+            padding-bottom: 8px;
         }
-        
-        .content-section h3 {
-            color: #ff6b6b;
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
+
+        .age-tab {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 12px 16px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
         }
-        
-        .step-by-step {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
-        }
-        
-        .step-number {
-            background: #ff6b6b;
+
+        .age-tab.active {
+            background: var(--primary);
             color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: inline-flex;
+            border-color: var(--primary);
+        }
+
+        /* === РАЗДЕЛЫ ПСИХОЛОГИИ === */
+        .psychology-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title .icon {
+            font-size: 1.5rem;
+        }
+
+        .psychology-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .psychology-card {
+            background: var(--surface);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+        }
+
+        .psychology-card.warning {
+            border-left-color: var(--warning);
+            background: linear-gradient(135deg, #fff, #fff5f5);
+        }
+
+        .psychology-card.info {
+            border-left-color: var(--secondary);
+            background: linear-gradient(135deg, #fff, #f0f8ff);
+        }
+
+        .psychology-card.tip {
+            border-left-color: var(--accent);
+            background: linear-gradient(135deg, #fff, #fff3e0);
+        }
+
+        .psychology-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .psychology-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .psychology-icon.primary { background: var(--primary-light); color: var(--primary); }
+        .psychology-icon.warning { background: #ffebee; color: var(--warning); }
+        .psychology-icon.info { background: #e3f2fd; color: var(--secondary); }
+        .psychology-icon.tip { background: #fff3e0; color: var(--accent); }
+
+        .psychology-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .psychology-content {
+            color: var(--text-medium);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .psychology-list {
+            list-style: none;
+            margin: 12px 0;
+        }
+
+        .psychology-list li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .psychology-list li::before {
+            content: '•';
+            color: var(--primary);
             font-weight: bold;
-            margin-right: 10px;
+            position: absolute;
+            left: 8px;
         }
-        
-        .age-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
+
+        /* === ТАБЛИЦА РАЗВИТИЯ === */
+        .development-table {
+            background: var(--surface);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin: 24px 0;
         }
-        
-        .age-table th {
-            background: #f0f8ff;
+
+        .table-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
-        .crisis-box {
-            background: #fff8f0;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
-            border-left: 4px solid #ffa726;
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
         }
-        
-        .fear-guide {
-            background: #f3e5f5;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
+
+        .table-row:last-child {
+            border-bottom: none;
         }
-        
-        .attachment-stages {
+
+        .table-age {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .table-skills {
+            color: var(--text-medium);
+        }
+
+        /* === КРИЗИСНЫЕ ПЕРИОДЫ === */
+        .crisis-section {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .crisis-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .crisis-icon {
+            font-size: 1.5rem;
+            color: #f57c00;
+        }
+
+        .crisis-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #e65100;
+        }
+
+        .crisis-list {
+            list-style: none;
+        }
+
+        .crisis-list li {
+            padding: 10px 0;
+            padding-left: 28px;
+            position: relative;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .crisis-list li::before {
+            content: '⚡';
+            position: absolute;
+            left: 0;
+            font-size: 1.1rem;
+        }
+
+        /* === СОВЕТЫ ПСИХОЛОГА === */
+        .expert-advice {
             background: #e8f5e8;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
+            border: 2px solid #4CAF50;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .expert-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .expert-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .expert-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .expert-list {
+            list-style: none;
+        }
+
+        .expert-list li {
+            padding: 8px 0;
+            padding-left: 28px;
+            position: relative;
+            color: var(--text-dark);
+        }
+
+        .expert-list li::before {
+            content: '💡';
+            position: absolute;
+            left: 0;
+            font-size: 1.1rem;
+        }
+
+        /* === ФУТЕР === */
+        .app-footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 20px 16px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .footer-content strong {
+            color: var(--text-medium);
+            font-weight: 600;
+        }
+
+        .footer-version {
+            display: block;
+            margin-top: 4px;
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* === АДАПТИВНОСТЬ === */
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 400px;
+                margin: 0 auto;
+                box-shadow: 0 0 40px rgba(0,0,0,0.1);
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Хедер -->
-    <header class="main-header">
-        <div class="header-content">
-            <h1 class="site-title">💝 Психология малыша</h1>
-            <p class="site-subtitle">Эмоциональное развитие и гармоничные отношения</p>
-        </div>
-    </header>
+    <div class="app-container">
+        <!-- Шапка -->
+        <header class="app-header">
+            <div class="header-content">
+                <button class="back-button" onclick="goBack()">←</button>
+                <h1 class="header-title">🧠 Психология развития</h1>
+            </div>
+        </header>
 
-    <!-- Навигация -->
-    <nav class="main-nav">
-        <div class="nav-container">
-            <ul class="nav-menu">
-                <li><a href="index.html" class="nav-link">🏠 Главная</a></li>
-                <li><a href="care.html" class="nav-link">👶 Уход</a></li>
-                <li><a href="nutrition.html" class="nav-link">🍎 Питание</a></li>
-                <li><a href="health.html" class="nav-link">🩺 Здоровье</a></li>
-                <li><a href="routine.html" class="nav-link">💤 Сон</a></li>
-                <li><a href="psychology.html" class="nav-link active">💝 Психология</a></li>
-                <li><a href="faq.html" class="nav-link">❓ Вопрос-Ответ</a></li>
-                <li><a href="contact.html" class="nav-link">📞 Контакты</a></li>
-            </ul>
-        </div>
-    </nav>
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Возрастные табы -->
+            <div class="age-tabs">
+                <div class="age-tab active">0-1 год</div>
+                <div class="age-tab">1-3 года</div>
+                <div class="age-tab">3-6 лет</div>
+                <div class="age-tab">Школьник</div>
+            </div>
 
-    <!-- Основной контент -->
-    <main class="main-content">
-        
-        <!-- Приветственный раздел -->
-        <section class="welcome-section">
-            <div class="welcome-container">
-                <h2>🌱 Эмоциональное развитие: от привязанности к самостоятельности</h2>
-                <p>Понимание психологии ребёнка помогает строить доверительные отношения, поддерживать эмоциональное здоровье и воспитывать счастливую личность.</p>
+            <!-- Этапы развития -->
+            <section class="psychology-section">
+                <h2 class="section-title">
+                    <span class="icon">📈</span>
+                    Этапы развития
+                </h2>
                 
-                <div class="stats-container">
-                    <div class="stat-item">
-                        <div class="stat-number">6</div>
-                        <div class="stat-label">Основных тем</div>
+                <div class="development-table">
+                    <h3 class="table-title">🎯 Ключевые навыки по возрастам</h3>
+                    <div class="table-row">
+                        <div class="table-age">0-3 мес</div>
+                        <div class="table-skills">Улыбка, слежение глазами, гуление</div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-number">50+</div>
-                        <div class="stat-label">Практических советов</div>
+                    <div class="table-row">
+                        <div class="table-age">3-6 мес</div>
+                        <div class="table-skills">Перевороты, хватание, смех</div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-number">100%</div>
-                        <div class="stat-label">Научно обосновано</div>
+                    <div class="table-row">
+                        <div class="table-age">6-9 мес</div>
+                        <div class="table-skills">Ползание, лепет, реакция на имя</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="table-age">9-12 мес</div>
+                        <div class="table-skills">Первые шаги, простые слова</div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Категории психологии -->
-        <section class="welcome-section">
-            <div class="welcome-container">
-                <h2>📚 Основы детской психологии</h2>
-                <p>Выберите интересующую вас тему для получения подробной информации</p>
+            <!-- Эмоциональное развитие -->
+            <section class="psychology-section">
+                <h2 class="section-title">
+                    <span class="icon">💖</span>
+                    Эмоциональное развитие
+                </h2>
                 
-                <div class="psychology-categories">
-                    <a href="#attachment" class="psychology-category">
-                        <div class="category-icon">🤗</div>
-                        <h3 class="category-title">Формирование привязанности</h3>
-                        <p class="category-description">Создание надежной эмоциональной связи с ребенком</p>
-                    </a>
-                    
-                    <a href="#emotional-intelligence" class="psychology-category">
-                        <div class="category-icon">😊</div>
-                        <h3 class="category-title">Развитие эмоционального интеллекта</h3>
-                        <p class="category-description">Учим ребенка понимать и выражать чувства</p>
-                    </a>
-                    
-                    <a href="#crisis" class="psychology-category">
-                        <div class="category-icon">🎢</div>
-                        <h3 class="category-title">Возрастные кризисы</h3>
-                        <p class="category-description">Помощь ребенку в периоды интенсивного развития</p>
-                    </a>
-                    
-                    <a href="#tantrums" class="psychology-category">
-                        <div class="category-icon">😭</div>
-                        <h3 class="category-title">Истерики: профилактика и помощь</h3>
-                        <p class="category-description">Эффективные стратегии управления эмоциями</p>
-                    </a>
-                    
-                    <a href="#independence" class="psychology-category">
-                        <div class="category-icon">🌟</div>
-                        <h3 class="category-title">Поддержка самостоятельности</h3>
-                        <p class="category-description">Воспитание уверенности и независимости</p>
-                    </a>
-                    
-                    <a href="#fears" class="psychology-category">
-                        <div class="category-icon">👻</div>
-                        <h3 class="category-title">Детские страхи</h3>
-                        <p class="category-description">Помощь в преодолении возрастных страхов</p>
-                    </a>
+                <div class="psychology-grid">
+                    <div class="psychology-card">
+                        <div class="psychology-header">
+                            <div class="psychology-icon primary">😊</div>
+                            <div>
+                                <h3 class="psychology-title">Привязанность и доверие</h3>
+                            </div>
+                        </div>
+                        <div class="psychology-content">
+                            <p>Формирование базового доверия к миру в первый год жизни.</p>
+                            <ul class="psychology-list">
+                                <li>Отвечайте на плач незамедлительно</li>
+                                <li>Частый телесный контакт (объятия, ношение)</li>
+                                <li>Постоянство в уходе и общении</li>
+                                <li>Эмоциональная доступность родителей</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="psychology-card info">
+                        <div class="psychology-header">
+                            <div class="psychology-icon info">😢</div>
+                            <div>
+                                <h3 class="psychology-title">Работа с эмоциями</h3>
+                            </div>
+                        </div>
+                        <div class="psychology-content">
+                            <p>Помощь ребенку в понимании и выражении чувств.</p>
+                            <ul class="psychology-list">
+                                <li>Назовите эмоцию: "Я вижу, ты расстроен"</li>
+                                <li>Примите все чувства, ограничьте только действия</li>
+                                <li>Покажите альтернативные способы выражения</li>
+                                <li>Будьте примером управления эмоциями</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Содержание разделов -->
-        
-        <!-- Формирование привязанности -->
-        <section id="attachment" class="content-section">
-            <h3>🤗 Формирование привязанности</h3>
-            
-            <div class="tip">
-                <strong>🎯 Почему надежная привязанность так важна:</strong>
-                <ul>
-                    <li>🛡️ Формирует базовое доверие к миру</li>
-                    <li>💝 Становится основой будущих отношений</li>
-                    <li>🧭 Помогает регулировать эмоции</li>
-                    <li>🚀 Стимулирует познавательную активность</li>
-                    <li>💪 Дает чувство безопасности для исследований</li>
+            <!-- Кризисные периоды -->
+            <div class="crisis-section">
+                <div class="crisis-header">
+                    <div class="crisis-icon">🌪️</div>
+                    <h3 class="crisis-title">Возрастные кризисы</h3>
+                </div>
+                <ul class="crisis-list">
+                    <li><strong>1 год</strong> - Кризис самостоятельности: "Я сам!"</li>
+                    <li><strong>3 года</strong> - Кризис негативизма: упрямство, протесты</li>
+                    <li><strong>7 лет</strong> - Кризис школьного возраста: потеря непосредственности</li>
+                    <li>Каждый кризис - шаг в развитии личности</li>
+                    <li>Требует терпения и понимания от родителей</li>
                 </ul>
             </div>
 
-            <div class="attachment-stages">
-                <h4>📊 Стадии формирования привязанности (по Боулби):</h4>
-                <p><span class="step-number">1</span> <strong>0-2 месяца:</strong> Фаза предварительной привязанности - реагирование на любых взрослых</p>
-                <p><span class="step-number">2</span> <strong>2-7 месяцев:</strong> Фаза формирования привязанности - предпочтение знакомых людей</p>
-                <p><span class="step-number">3</span> <strong>7-24 месяца:</strong> Фаза четкой привязанности - активное стремление к близости с матерью</p>
-                <p><span class="step-number">4</span> <strong>24+ месяцев:</strong> Формирование партнерского поведения - учет целей и чувств родителей</p>
-            </div>
+            <!-- Воспитание и дисциплина -->
+            <section class="psychology-section">
+                <h2 class="section-title">
+                    <span class="icon">👨‍👩‍👧‍👦</span>
+                    Воспитание и дисциплина
+                </h2>
+                
+                <div class="psychology-grid">
+                    <div class="psychology-card tip">
+                        <div class="psychology-header">
+                            <div class="psychology-icon tip">✅</div>
+                            <div>
+                                <h3 class="psychology-title">Позитивное воспитание</h3>
+                            </div>
+                        </div>
+                        <div class="psychology-content">
+                            <ul class="psychology-list">
+                                <li>Хвалите усилия, а не только результат</li>
+                                <li>Устанавливайте четкие и последовательные правила</li>
+                                <li>Предлагайте выбор: "Ты наденешь красную или синюю футболку?"</li>
+                                <li>Объясняйте причины запретов</li>
+                                <li>Используйте "я-сообщения" вместо обвинений</li>
+                            </ul>
+                        </div>
+                    </div>
 
-            <div class="step-by-step">
-                <h4>📋 Как формируется надежная привязанность:</h4>
-                <p><span class="step-number">1</span> <strong>Своевременное удовлетворение потребностей</strong> - ребенок учится доверять миру</p>
-                <p><span class="step-number">2</span> <strong>Эмоциональный отклик на плач</strong> - подтверждение, что его слышат</p>
-                <p><span class="step-number">3</span> <strong>Тактильный контакт</strong> - объятия, ношение на руках, массаж</p>
-                <p><span class="step-number">4</span> <strong>Зрительный контакт и "детский лепет"</strong> - эмоциональное общение</p>
-                <p><span class="step-number">5</span> <strong>Предсказуемость и последовательность</strong> - создание безопасного мира</p>
-            </div>
+                    <div class="psychology-card warning">
+                        <div class="psychology-header">
+                            <div class="psychology-icon warning">🚫</div>
+                            <div>
+                                <h3 class="psychology-title">Чего избегать</h3>
+                            </div>
+                        </div>
+                        <div class="psychology-content">
+                            <ul class="psychology-list">
+                                <li>Кричать и применять физические наказания</li>
+                                <li>Сравнивать с другими детьми</li>
+                                <li>Игнорировать чувства ребенка</li>
+                                <li>Нарушать собственные правила</li>
+                                <li>Чрезмерно контролировать и опекать</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            <table class="age-table">
-                <tr>
-                    <th>Возраст</th>
-                    <th>Проявления привязанности</th>
-                    <th>Что делать родителям</th>
-                </tr>
-                <tr>
-                    <td>0-6 месяцев</td>
-                    <td>Улыбка, комплекс оживления, успокоение на руках</td>
-                    <td>Быстро реагировать на плач, много контакта "кожа к коже"</td>
-                </tr>
-                <tr>
-                    <td>6-12 месяцев</td>
-                    <td>Страх чужих, радость при появлении мамы, папы, ползание за ними</td>
-                    <td>Быть доступным, поддерживать исследование, мягко прощаться</td>
-                </tr>
-                <tr>
-                    <td>1-2 года</td>
-                    <td>Проверка границ, возвращение к маме, папе как к "безопасной базе"</td>
-                    <td>Поддерживать самостоятельность, быть эмоционально доступным</td>
-                </tr>
-                <tr>
-                    <td>2-3 года</td>
-                    <td>Словесное выражение привязанности, ревность, сепарационная тревога</td>
-                    <td>Обсуждать чувства, устанавливать границы с любовью</td>
-                </tr>
-            </table>
-
-            <div class="tip">
-                <strong>💡 Практика "достаточно хорошей матери":</strong>
-                <p>Не нужно быть идеальной! Достаточно удовлетворять около 70% потребностей вовремя. Это учит ребёнка справляться с небольшими фрустрациями и развивает устойчивость.</p>
-            </div>
-        </section>
-
-        <!-- Развитие эмоционального интеллекта -->
-        <section id="emotional-intelligence" class="content-section">
-            <h3>😊 Развитие эмоционального интеллекта</h3>
-            
-            <div class="tip">
-                <strong>🎯 Что такое эмоциональный интеллект:</strong>
-                <ul>
-                    <li>🔍 Способность распознавать свои и чужие эмоции</li>
-                    <li>💬 Умение называть и выражать чувства словами</li>
-                    <li>🎯 Понимание причин эмоций</li>
-                    <li>🔄 Управление своими эмоциональными реакциями</li>
-                    <li>🤝 Эмпатия - понимание чувств других людей</li>
+            <!-- Советы эксперта -->
+            <div class="expert-advice">
+                <div class="expert-header">
+                    <div class="expert-icon">🌟</div>
+                    <h3 class="expert-title">Советы детского психолога</h3>
+                </div>
+                <ul class="expert-list">
+                    <li><strong>Игра - это серьезно!</strong> Через игру дети познают мир и выражают эмоции</li>
+                    <li><strong>Читайте вместе</strong> - это развивает воображение и эмоциональный интеллект</li>
+                    <li><strong>Ограничьте экранное время</strong> - живое общение незаменимо</li>
+                    <li><strong>Слушайте активно</strong> - покажите, что мнение ребенка важно</li>
+                    <li><strong>Заботьтесь о себе</strong> - счастливые родители = счастливые дети</li>
                 </ul>
             </div>
 
-            <div class="step-by-step">
-                <h4>📋 "Язык эмоций" - как учить:</h4>
-                <p><span class="step-number">1</span> <strong>Называйте эмоции:</strong> "Я вижу, ты расстроен", "Ты сейчас злишься"</p>
-                <p><span class="step-number">2</span> <strong>Принимайте все чувства:</strong> "Злиться - нормально", "Грустить можно"</p>
-                <p><span class="step-number">3</span> <strong>Показывайте пример:</strong> "Мама тоже иногда грустит", "Папа рад тебя видеть"</p>
-                <p><span class="step-number">4</span> <strong>Используйте книги про эмоции:</strong> С картинками и названиями чувств</p>
-                <p><span class="step-number">5</span> <strong>Играйте в "угадай эмоцию":</strong> Показывайте разные выражения лица</p>
-            </div>
+            <!-- Развитие речи -->
+            <section class="psychology-section">
+                <h2 class="section-title">
+                    <span class="icon">🗣️</span>
+                    Развитие речи
+                </h2>
+                
+                <div class="psychology-grid">
+                    <div class="psychology-card">
+                        <div class="psychology-header">
+                            <div class="psychology-icon primary">💬</div>
+                            <div>
+                                <h3 class="psychology-title">Стимулирование речи</h3>
+                            </div>
+                        </div>
+                        <div class="psychology-content">
+                            <ul class="psychology-list">
+                                <li>Говорите с ребенком с рождения</li>
+                                <li>Комментируйте все действия в течение дня</li>
+                                <li>Читайте книги с яркими картинками</li>
+                                <li>Пойте песни и рассказывайте стихи</li>
+                                <li>Не исправляйте, а правильно повторяйте</li>
+                                <li>Задавайте открытые вопросы</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            <table class="age-table">
-                <tr>
-                    <th>Возраст</th>
-                    <th>Эмоциональные достижения</th>
-                    <th>Как развивать ЭИ</th>
-                </tr>
-                <tr>
-                    <td>0-6 месяцев</td>
-                    <td>Улыбка, комплекс оживления, различение эмоций по лицу</td>
-                    <td>Улыбаться в ответ, говорить с разной интонацией</td>
-                </tr>
-                <tr>
-                    <td>6-12 месяцев</td>
-                    <td>Страх чужих, радость при маме, папе, гнев при ограничениях</td>
-                    <td>Называть эмоции, утешать, играть в прятки</td>
-                </tr>
-                <tr>
-                    <td>1-2 года</td>
-                    <td>Сопереживание, гнев, стыд, гордость за достижения</td>
-                    <td>Обсуждать чувства героев книг, хвалить за усилия</td>
-                </tr>
-                <tr>
-                    <td>2-3 года</td>
-                    <td>Гордость, вина, ревность, смущение</td>
-                    <td>Учить альтернативам агрессии, обсуждать последствия</td>
-                </tr>
-            </table>
+            <!-- Социализация -->
+            <section class="psychology-section">
+                <h2 class="section-title">
+                    <span class="icon">👥</span>
+                    Социализация
+                </h2>
+                
+                <div class="psychology-grid">
+                    <div class="psychology-card info">
+                        <div class="psychology-header">
+                            <div class="psychology-icon info">🤝</div>
+                            <div>
+                                <h3 class="psychology-title">Развитие социальных навыков</h3>
+                            </div>
+                        </div>
+                        <div class="psychology-content">
+                            <ul class="psychology-list">
+                                <li>Организуйте встречи с другими детьми</li>
+                                <li>Учите делиться и ждать своей очереди</li>
+                                <li>Объясняйте правила поведения в обществе</li>
+                                <li>Развивайте эмпатию: "Как думаешь, что чувствует мальчик?"</li>
+                                <li>Показывайте пример вежливого общения</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            <div class="tip">
-                <strong>💡 Игры для развития эмоционального интеллекта:</strong>
-                <ul>
-                    <li><strong>"Зеркало":</strong> Ребенок повторяет вашу мимику</li>
-                    <li><strong>"Угадай эмоцию":</strong> Показывайте эмоции, ребенок угадывает</li>
-                    <li><strong>"Кукольный театр":</strong> Разыгрывайте ситуации с эмоциями</li>
-                    <li><strong>"Эмоциональное лото":</strong> Карточки с лицами, выражающими разные чувства</li>
-                    <li><strong>"Рисуем эмоции":</strong> Рисовать смайлики или лица с разными чувствами</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Возрастные кризисы -->
-        <section id="crisis" class="content-section">
-            <h3>🎢 Возрастные кризисы</h3>
-            
-            <div class="crisis-box">
-                <strong>💡 Кризис = рост!</strong>
-                <p>Каждый кризис — это переход на новый уровень развития. Ребёнок не манипулирует, а учится быть личностью. Кризис означает, что старые способы взаимодействия уже не работают, и нужно найти новые.</p>
-            </div>
-
-            <div class="step-by-step">
-                <h4>👶 Кризис 1 года:</h4>
-                <p><span class="step-number">1</span> <strong>Проявления:</strong> "Нет!", упрямство, протесты, отказ от привычных действий</p>
-                <p><span class="step-number">2</span> <strong>Причина:</strong> Осознание отдельности от родителей, появление собственной воли</p>
-                <p><span class="step-number">3</span> <strong>Помощь:</strong> Предлагать выбор ("Какую футболку надеть?"), уважать "нет" в безопасных ситуациях</p>
-                <p><span class="step-number">4</span> <strong>Длительность:</strong> 2-6 месяцев</p>
-            </div>
-
-            <div class="step-by-step">
-                <h4>🚀 Кризис 2 лет ("Ужасные двойки"):</h4>
-                <p><span class="step-number">1</span> <strong>Проявления:</strong> Истерики, противоречия ("Хочу" - "Не хочу"), негативизм</p>
-                <p><span class="step-number">2</span> <strong>Причина:</strong> Стремление к самостоятельности при ограниченных возможностях</p>
-                <p><span class="step-number">3</span> <strong>Помощь:</strong> Чёткие границы, проговаривание чувств, выбор без выбора ("Сначала чистим зубы или умываемся?")</p>
-                <p><span class="step-number">4</span> <strong>Длительность:</strong> 6-12 месяцев</p>
-            </div>
-
-            <div class="step-by-step">
-                <h4>🎭 Кризис 3 лет ("Я сам!"):</h4>
-                <p><span class="step-number">1</span> <strong>Проявления:</strong> Упрямство, своеволие, протест-бунт, деспотизм</p>
-                <p><span class="step-number">2</span> <strong>Причина:</strong> Осознание себя как отдельной личности с собственными желаниями</p>
-                <p><span class="step-number">3</span> <strong>Помощь:</strong> Поддержка самостоятельности в безопасных рамках, ролевые игры</p>
-                <p><span class="step-number">4</span> <strong>Длительность:</strong> Около года</p>
-            </div>
-
-            <div class="tip">
-                <strong>🎯 Общие стратегии помощи в кризисные периоды:</strong>
-                <ul>
-                    <li>Сохраняйте спокойствие - вы взрослый</li>
-                    <li>Предлагайте выбор там, где это возможно</li>
-                    <li>Устанавливайте четкие и последовательные границы</li>
-                    <li>Проговаривайте чувства ребенка</li>
-                    <li>Обеспечивайте достаточно сна и отдыха</li>
-                    <li>Помните - это временно и необходимо для развития</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Истерики: профилактика и помощь -->
-        <section id="tantrums" class="content-section">
-            <h3>😭 Истерики: профилактика и помощь</h3>
-            
-            <div class="tip">
-                <strong>🎯 Почему случаются истерики:</strong>
-                <ul>
-                    <li>🧠 Незрелость префронтальной коры (отвечает за самоконтроль)</li>
-                    <li>💪 Ограниченные возможности вербального выражения</li>
-                    <li>🕒 Неумение справляться с фрустрацией</li>
-                    <li>🌡 Фиологический дискомфорт (голод, усталость, перевозбуждение)</li>
-                    <li>🚀 Естественный этап развития самостоятельности</li>
-                </ul>
-            </div>
-
-            <div class="step-by-step">
-                <h4>🛡️ Профилактика истерик:</h4>
-                <p><span class="step-number">1</span> <strong>Режим дня</strong> - предсказуемость создает ощущение безопасности</p>
-                <p><span class="step-number">2</span> <strong>Предупреждение о смене деятельности</strong> - "Через 5 минут уходим с площадки"</p>
-                <p><span class="step-number">3</span> <strong>Предложение выбора</strong> - "Какую футболку надеть: красную или синюю?"</p>
-                <p><span class="step-number">4</span> <strong>Избегание переутомления и голода</strong> - следите за признаками усталости</p>
-                <p><span class="step-number">5</span> <strong>Реалистичные ожидания</strong> - не требуйте невозможного для возраста</p>
-            </div>
-
-            <div class="step-by-step">
-                <h4>🆘 Во время истерики:</h4>
-                <p><span class="step-number">1</span> <strong>Обеспечьте безопасность</strong> - уберите опасные предметы</p>
-                <p><span class="step-number">2</span> <strong>Сохраняйте спокойствие</strong> - ваш покой заразителен</p>
-                <p><span class="step-number">3</span> <strong>Назовите чувство:</strong> "Я вижу, ты очень злишься, потому что..."</p>
-                <p><span class="step-number">4</span> <strong>Предложите контакт</strong> - объятия, если ребенок готов (не настаивайте)</p>
-                <p><span class="step-number">5</span> <strong>Переждите</strong> - не поддаваясь на провокации, будьте рядом</p>
-            </div>
-
-            <div class="warning">
-                <strong>❌ Чего не делать во время истерики:</strong>
-                <ul>
-                    <li>Не кричать и не шлёпать - это показывает, что проблемы можно решать без силы</li>
-                    <li>Не подкупать и не уступать - это закрепляет истерику как способ добиться своего</li>
-                    <li>Не стыдить ("Как тебе не стыдно!") - это разрушает самооценку</li>
-                    <li>Не игнорировать полностью - ребенок должен знать, что вы рядом</li>
-                    <li>Не обсуждать и не воспитывать в разгар истерики - ребенок не способен воспринимать информацию</li>
-                </ul>
-            </div>
-
-            <div class="tip">
-                <strong>💡 После истерики:</strong>
-                <ul>
-                    <li>Обнимите и утешьте - покажите, что любите, даже когда злитесь</li>
-                    <li>Обсудите, что произошло - когда все успокоятся</li>
-                    <li>Предложите альтернативы выражения гнева - "В следующий раз можешь сказать..."</li>
-                    <li>Восстановите связь - совместная игра или чтение</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Поддержка самостоятельности -->
-        <section id="independence" class="content-section">
-            <h3>🌟 Поддержка самостоятельности</h3>
-            
-            <div class="tip">
-                <strong>🎯 Зона ближайшего развития (Выготский):</strong>
-                <p>Предлагайте задачи, которые ребёнок может выполнить с небольшой помощью. Не делайте за него то, что он может сделать сам. Зона ближайшего развития - это разница между тем, что ребенок может сделать самостоятельно, и тем, что может сделать с помощью взрослого.</p>
-            </div>
-
-            <div class="step-by-step">
-                <h4>📋 Практики поддержки самостоятельности:</h4>
-                <p><span class="step-number">1</span> <strong>Давайте время на самостоятельные попытки</strong> - не спешите помогать</p>
-                <p><span class="step-number">2</span> <strong>Хвалите усилия, а не результат</strong> - "Я вижу, как ты старался!"</p>
-                <p><span class="step-number">3</span> <strong>Разрешайте безопасные ошибки</strong> - это ценный опыт обучения</p>
-                <p><span class="step-number">4</span> <strong>Создайте доступную среду</strong> - низкие полки, безопасная посуда</p>
-                <p><span class="step-number">5</span> <strong>Поощряйте выбор</strong> - "Какую книгу почитать?", "Какую кашу сварить?"</p>
-            </div>
-
-            <table class="age-table">
-                <tr>
-                    <th>Возраст</th>
-                    <th>Что можно разрешить делать самостоятельно</th>
-                    <th>Как поддерживать</th>
-                </tr>
-                <tr>
-                    <td>1-1.5 года</td>
-                    <td>Есть ложкой, снимать носки, выбирать игрушку</td>
-                    <td>Предлагать выбор из 2 вариантов, хвалить попытки</td>
-                </tr>
-                <tr>
-                    <td>1.5-2 года</td>
-                    <td>Надевать шапку, мыть руки, убирать игрушки</td>
-                    <td>Показывать, как делать, разбивать на простые шаги</td>
-                </tr>
-                <tr>
-                    <td>2-3 года</td>
-                    <td>Одеваться с помощью, наливать воду, помогать по дому</td>
-                    <td>Быть терпеливым, позволять делать "по-своему"</td>
-                </tr>
-                <tr>
-                    <td>3-4 года</td>
-                    <td>Полностью одеваться, готовить простые блюда, ухаживать за растениями</td>
-                    <td>Поощрять инициативу, доверять ответственность</td>
-                </tr>
-            </table>
-
-            <div class="tip">
-                <strong>💡 "Я сам!" - что разрешить:</strong>
-                <ul>
-                    <li><strong>Выбор одежды</strong> - из 2-3 подходящих по погоде вариантов</li>
-                    <li><strong>Самостоятельная еда</strong> - с 1 года, даже если это грязно</li>
-                    <li><strong>Уборка игрушек</strong> - вместе с родителями, превращая в игру</li>
-                    <li><strong>Простой выбор еды</strong> - "Кашу или суп?", "Яблоко или банан?"</li>
-                    <li><strong>Небольшие поручения</strong> - "Отнеси папе газету", "Поставь цветок на окно"</li>
-                </ul>
-            </div>
-
-            <div class="warning">
-                <strong>⚠️ Осторожно с критикой!</strong>
-                <p>Критика самостоятельных попыток может привести к выученной беспомощности. Лучше сказать "Давай попробуем по-другому", чем "Ты делаешь неправильно".</p>
-            </div>
-        </section>
-
-        <!-- Детские страхи -->
-        <section id="fears" class="content-section">
-            <h3>👻 Детские страхи</h3>
-            
-            <div class="fear-guide">
-                <strong>🎯 Возрастные страхи - это нормально!</strong>
-                <p>Детские страхи - естественная часть развития. Они показывают, что ребенок осознает опасности и развивает защитные механизмы. Большинство возрастных страхов проходят сами по мере взросления.</p>
-            </div>
-
-            <table class="age-table">
-                <tr>
-                    <th>Возраст</th>
-                    <th>Типичные страхи</th>
-                    <th>Причина</th>
-                </tr>
-                <tr>
-                    <td>0-6 месяцев</td>
-                    <td>Громкие звуки, резкие движения, потеря опоры</td>
-                    <td>Незрелость нервной системы, инстинктивные реакции</td>
-                </tr>
-                <tr>
-                    <td>7-12 месяцев</td>
-                    <td>Чужие люди, разлука с родителями, незнакомые предметы</td>
-                    <td>Формирование привязанности, узнавание "своих"</td>
-                </tr>
-                <tr>
-                    <td>1-2 года</td>
-                    <td>Незнакомые предметы, врачи, громкие бытовые приборы</td>
-                    <td>Расширение мира, но недостаточный опыт</td>
-                </tr>
-                <tr>
-                    <td>2-3 года</td>
-                    <td>Темнота, монстры, животные, одиночество</td>
-                    <td>Развитие воображения, но неумение отличать реальное от вымышленного</td>
-                </tr>
-                <tr>
-                    <td>3-5 лет</td>
-                    <td>Смерть, болезни, сказочные персонажи, природные явления</td>
-                    <td>Осознание конечности жизни, влияние сказок и мультфильмов</td>
-                </tr>
-            </table>
-
-            <div class="step-by-step">
-                <h4>📋 Как помочь преодолеть страх:</h4>
-                <p><span class="step-number">1</span> <strong>Признавайте страх:</strong> "Да, это может быть страшно", "Я понимаю, ты боишься"</p>
-                <p><span class="step-number">2</span> <strong>Не высмеивайте и не стыдите</strong> - страх реальный для ребенка</p>
-                <p><span class="step-number">3</span> <strong>Давайте информацию</strong> - книги, рассказы о том, чего боится ребенок</p>
-                <p><span class="step-number">4</span> <strong>Используйте игру для проработки</strong> - проигрывайте страшные ситуации</p>
-                <p><span class="step-number">5</span> <strong>Создавайте ритуалы защиты</strong> - ночник, "монстровыгонялка", защитный спрей</p>
-            </div>
-
-            <div class="tip">
-                <strong>💡 Игры для преодоления страхов:</strong>
-                <ul>
-                    <li><strong>"Охота на монстров":</strong> Ищем и "выгоняем" монстров из комнаты</li>
-                    <li><strong>"Темнота - друг":</strong> Играем в прятки в темноте с фонариком</li>
-                    <li><strong>"Страшные" рисунки:</strong> Рисуем страх, а потом "переделываем" его в смешной</li>
-                    <li><strong>Кукольный театр:</strong> Разыгрываем ситуации, где герой побеждает страх</li>
-                    <li><strong>"Волшебный предмет":</strong> Создаем талисман, защищающий от страхов</li>
-                </ul>
-            </div>
-
-            <div class="warning">
-                <strong>🚨 Когда обращаться к специалисту:</strong>
-                <ul>
-                    <li>Страх мешает повседневной жизни (еде, сну, играм)</li>
-                    <li>Ребенок постоянно находится в состоянии тревоги</li>
-                    <li>Появились навязчивые действия или ритуалы</li>
-                    <li>Страх длится более 2-3 месяцев без улучшения</li>
-                    <li>Присоединяются физические симптомы (рвота, энурез, тики)</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Дополнительная помощь -->
-        <section class="welcome-section">
-            <div class="welcome-container">
-                <h2>💌 Нужна дополнительная помощь?</h2>
-                <p>Если у вас остались вопросы по психологии ребенка, наши эксперты всегда готовы помочь!</p>
-                <a href="faq.html" class="submit-btn" style="display: inline-block; width: auto; padding: 15px 30px; margin-top: 1rem;">
-                    📧 Задать вопрос психологу
-                </a>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Футер -->
-    <footer class="main-footer">
-        <div class="footer-content">
-            <div class="footer-info">
-                <h3>💝 Психология малыша</h3>
-                <p>Гармоничные отношения и счастливое детство</p>
-            </div>
-            <div class="footer-copyright">
-                <p>&copy; 2025  Виталий Егоров. РодительскийПомощник.</p>
-            </div>
-        </div>
-    </footer>
+            <!-- Футер -->
+            <footer class="app-footer">
+                <div class="footer-content">
+                    <strong>© 2025 Виталий Егоров. РодительскийПомощник</strong>
+                    <span class="footer-version">Версия 2.0</span>
+                </div>
+            </footer>
+        </main>
+    </div>
 
     <script>
-        // Плавная прокрутка к разделам
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+        function goBack() {
+            window.history.back();
+        }
+
+        // Переключение возрастных табов
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.age-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Здесь можно добавить загрузку контента для выбранного возраста
+                    showAgeContent(this.textContent);
+                });
             });
+
+            // Анимации карточек
+            setTimeout(() => {
+                document.querySelectorAll('.psychology-card').forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.5s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 300);
         });
+
+        function showAgeContent(age) {
+            // Можно реализовать динамическую загрузку контента по возрастам
+            console.log('Выбран возраст:', age);
+        }
     </script>
 </body>
 </html>
