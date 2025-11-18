@@ -52,7 +52,8 @@
             color: var(--text-dark);
             line-height: 1.6;
             overflow-x: hidden;
-            padding-bottom: 80px; /* Место для навигации */
+            /* SAFE AREA FIX - критическое исправление для RuStore */
+            padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
         }
 
         .app-container {
@@ -106,7 +107,9 @@
 
         /* === ОСНОВНОЙ КОНТЕНТ === */
         .main-content {
-            padding: 20px 16px 30px; /* Уменьшил нижний отступ */
+            padding: 20px 16px 30px;
+            /* SAFE AREA FIX - защита контента */
+            padding-bottom: calc(30px + env(safe-area-inset-bottom, 0px)) !important;
         }
 
         .section-title {
@@ -425,7 +428,7 @@
             padding: 20px 16px;
             text-align: center;
             position: relative;
-            z-index: 999; /* Выше навигации */
+            z-index: 999;
             margin-top: 40px;
         }
 
@@ -447,7 +450,7 @@
             opacity: 0.8;
         }
 
-        /* === НИЖНЯЯ НАВИГАЦИЯ === */
+        /* === НИЖНЯЯ НАВИГАЦИЯ - КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ ДЛЯ RUSTORE === */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -457,6 +460,8 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             padding: 12px 0;
+            /* SAFE AREA FIX - основное исправление */
+            padding-bottom: calc(12px + env(safe-area-inset-bottom, 20px)) !important;
             box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
             border-top: 1px solid var(--border);
             z-index: 1000;
@@ -489,6 +494,113 @@
         .nav-label {
             font-size: 0.7rem;
             font-weight: 500;
+        }
+
+        /* === ОФФЛАЙН-ЗАГЛУШКА - НОВЫЙ ФУНКЦИОНАЛ === */
+        .offline-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .offline-overlay.active {
+            display: flex;
+        }
+
+        .offline-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        .offline-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .offline-message {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            max-width: 400px;
+            line-height: 1.6;
+        }
+
+        .offline-features {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+        }
+
+        .offline-features h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .offline-features ul {
+            list-style: none;
+            text-align: left;
+        }
+
+        .offline-features li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .offline-features li::before {
+            content: "✓";
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .retry-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            margin-top: 20px;
+        }
+
+        .retry-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
         }
 
         /* === АДАПТИВНОСТЬ === */
@@ -762,6 +874,26 @@
         </nav>
     </div>
 
+    <!-- ОФФЛАЙН-ЗАГЛУШКА - НОВЫЙ ФУНКЦИОНАЛ -->
+    <div id="offlineOverlay" class="offline-overlay">
+        <div class="offline-icon">📶</div>
+        <h1 class="offline-title">Нет соединения</h1>
+        <p class="offline-message">Приложение работает в оффлайн-режиме. Доступны основные функции:</p>
+        
+        <div class="offline-features">
+            <h3>Доступно оффлайн:</h3>
+            <ul>
+                <li>Калькулятор развития</li>
+                <li>Дневник наблюдений</li>
+                <li>Трекер прививок</li>
+                <li>Личные заметки</li>
+                <li>Вся сохраненная статистика</li>
+            </ul>
+        </div>
+        
+        <button class="retry-button" onclick="checkConnection()">Проверить соединение</button>
+    </div>
+
     <!-- JavaScript -->
     <script>
         // === РАБОТАЮЩИЕ ФУНКЦИИ НАВИГАЦИИ ===
@@ -806,6 +938,28 @@
             // Уже на главной
             console.log('Уже на главной странице');
         }
+
+        // === ОФФЛАЙН-ДЕТЕКШЕН - НОВЫЙ ФУНКЦИОНАЛ ===
+        function checkConnection() {
+            const offlineOverlay = document.getElementById('offlineOverlay');
+            
+            if (navigator.onLine) {
+                offlineOverlay.classList.remove('active');
+                console.log('Соединение восстановлено');
+            } else {
+                offlineOverlay.classList.add('active');
+                console.log('Режим оффлайн');
+            }
+        }
+
+        // Слушатели событий сети
+        window.addEventListener('online', checkConnection);
+        window.addEventListener('offline', checkConnection);
+
+        // Проверка при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            checkConnection();
+        });
 
         // === ФУНКЦИИ ДЛЯ КНОПКИ "ЕЩЁ" ===
         
