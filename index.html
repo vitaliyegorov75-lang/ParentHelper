@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>РодительскийПомощник - Умный помощник для родителей</title>
     <meta name="description" content="Профессиональное приложение для отслеживания развития ребенка, прививок, сна и кормлений. Все инструменты для заботы о малыше в одном месте.">
     <meta name="theme-color" content="#4CAF50">
@@ -15,755 +15,400 @@
     <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
     
     <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
     <style>
-        /* === БАЗОВЫЕ СТИЛИ === */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #4CAF50;
-            --primary-dark: #45a049;
-            --primary-light: #E8F5E8;
-            --secondary: #2196F3;
-            --accent: #FF9800;
-            --warning: #FF6B6B;
-            --text-dark: #2C3E50;
-            --text-medium: #546E7A;
-            --text-light: #78909C;
-            --background: #F8F9FA;
-            --surface: #FFFFFF;
-            --border: #E0E0E0;
-            --shadow: 0 4px 20px rgba(0,0,0,0.08);
-            --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
-            --gradient-primary: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            --gradient-secondary: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
-            --gradient-accent: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
-            --border-radius: 16px;
-            --border-radius-sm: 12px;
-            --transition: all 0.3s ease;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: var(--background);
-            color: var(--text-dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-            padding-bottom: 80px; /* Место для навигации */
-        }
-
-        .app-container {
-            max-width: 100%;
-            position: relative;
-            min-height: 100vh;
-        }
-
-        /* === ШАПКА === */
-        .app-header {
-            background: var(--gradient-primary);
-            color: white;
-            padding: 20px 16px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .app-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .app-icon {
-            font-size: 1.8rem;
-        }
-
-        .app-subtitle {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            font-weight: 400;
-        }
-
-        .header-background {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 120px;
-            background: rgba(255,255,255,0.1);
-            clip-path: polygon(100% 0, 100% 100%, 0 100%);
-        }
-
-        /* === ОСНОВНОЙ КОНТЕНТ === */
-        .main-content {
-            padding: 20px 16px 30px; /* Уменьшил нижний отступ */
-        }
-
-        .section-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin: 32px 0 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), transparent);
-        }
-
-        /* === ПРИВЕТСТВЕННЫЙ БАННЕР === */
-        .welcome-banner {
-            background: var(--surface);
-            border-radius: var(--border-radius);
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow);
-            border-left: 4px solid var(--primary);
-        }
-
-        .welcome-banner h2 {
-            color: var(--text-dark);
-            margin-bottom: 8px;
-            font-size: 1.3rem;
-        }
-
-        .welcome-banner p {
-            color: var(--text-medium);
-            font-size: 0.95rem;
-        }
-
-        /* === БЫСТРЫЕ ДЕЙСТВИЯ === */
-        .quick-actions {
-            margin-bottom: 32px;
-        }
-
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-
-        .action-card {
-            background: var(--surface);
-            border-radius: var(--border-radius-sm);
-            padding: 20px 12px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            cursor: pointer;
-            border: 1px solid var(--border);
-        }
-
-        .action-card:active {
-            transform: scale(0.95);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .action-icon {
-            font-size: 2rem;
-            margin-bottom: 8px;
-        }
-
-        .action-text h3 {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 4px;
-        }
-
-        .action-text p {
-            font-size: 0.75rem;
-            color: var(--text-light);
-        }
-
-        /* === ОСНОВНЫЕ ФУНКЦИИ === */
-        .main-features {
-            margin-bottom: 32px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
-
-        .feature-card {
-            background: var(--surface);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-
-        .feature-card:active {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
+        /* === ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ ОФФЛАЙН ЗАГЛУШКИ === */
+        .offline-overlay {
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: var(--gradient-primary);
-        }
-
-        .feature-content {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-        }
-
-        .feature-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
+            bottom: 0;
+            background: var(--surface);
+            z-index: 9999;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
+            padding: 20px;
         }
 
-        .feature-icon.calc { background: var(--primary-light); color: var(--primary); }
-        .feature-icon.vaccine { background: #E3F2FD; color: var(--secondary); }
-        .feature-icon.diary { background: #FFF3E0; color: var(--accent); }
-        .feature-icon.notes { background: #F3E5F5; color: #9C27B0; }
-
-        .feature-info {
-            flex: 1;
+        .offline-content {
+            text-align: center;
+            max-width: 400px;
+            padding: 40px 20px;
         }
 
-        .feature-info h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 6px;
-        }
-
-        .feature-info p {
-            font-size: 0.9rem;
-            color: var(--text-medium);
-            line-height: 1.4;
-            margin-bottom: 12px;
-        }
-
-        .feature-stats {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .stat {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            color: var(--text-light);
-        }
-
-        .feature-badge {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: var(--warning);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        /* === СТАТИСТИКА === */
-        .stats-section {
-            margin-bottom: 32px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+        .offline-icon {
+            font-size: 4rem;
             margin-bottom: 20px;
+            opacity: 0.7;
         }
 
-        .stat-item {
-            background: var(--surface);
-            border-radius: var(--border-radius-sm);
-            padding: 20px 12px;
-            text-align: center;
-            box-shadow: var(--shadow);
-        }
-
-        .stat-value {
+        .offline-content h2 {
+            color: var(--text-dark);
+            margin-bottom: 16px;
             font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 4px;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--text-light);
-            font-weight: 500;
-        }
-
-        .progress-card {
-            background: var(--surface);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            box-shadow: var(--shadow);
-        }
-
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .progress-title {
-            font-size: 0.95rem;
             font-weight: 600;
-            color: var(--text-dark);
         }
 
-        .progress-percent {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .progress-bar {
-            background: var(--border);
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--gradient-primary);
-            border-radius: 4px;
-            width: 0%;
-            transition: width 1s ease;
-        }
-
-        /* === ИНФОРМАЦИОННЫЕ РАЗДЕЛЫ === */
-        .info-sections {
-            margin-bottom: 32px;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .info-card {
-            background: var(--surface);
-            border-radius: var(--border-radius-sm);
-            padding: 20px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            cursor: pointer;
-            border: 1px solid var(--border);
-        }
-
-        .info-card:active {
-            transform: scale(0.98);
-        }
-
-        .info-content {
-            text-align: center;
-        }
-
-        .info-icon {
-            font-size: 2rem;
-            margin-bottom: 8px;
-        }
-
-        .info-content h3 {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 4px;
-        }
-
-        .info-content p {
-            font-size: 0.8rem;
-            color: var(--text-light);
-        }
-
-        /* === ФУТЕР === */
-        .app-footer {
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            padding: 20px 16px;
-            text-align: center;
-            position: relative;
-            z-index: 999; /* Выше навигации */
-            margin-top: 40px;
-        }
-
-        .footer-content {
-            color: var(--text-light);
-            font-size: 0.85rem;
-            line-height: 1.4;
-        }
-
-        .footer-content strong {
+        .offline-content p {
             color: var(--text-medium);
-            font-weight: 600;
+            margin-bottom: 30px;
+            line-height: 1.5;
         }
 
-        .footer-version {
-            display: block;
-            margin-top: 4px;
-            font-size: 0.8rem;
-            opacity: 0.8;
-        }
-
-        /* === НИЖНЯЯ НАВИГАЦИЯ === */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--surface);
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            padding: 12px 0;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
-            border-top: 1px solid var(--border);
-            z-index: 1000;
-        }
-
-        .nav-item {
-            background: none;
-            border: none;
-            padding: 8px;
-            cursor: pointer;
+        .offline-features {
             display: flex;
             flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .feature {
+            display: flex;
             align-items: center;
-            gap: 4px;
-            transition: var(--transition);
-        }
-
-        .nav-item.active {
+            gap: 10px;
+            padding: 12px 16px;
+            background: var(--primary-light);
+            border-radius: var(--border-radius-sm);
             color: var(--primary);
-        }
-
-        .nav-item:not(.active) {
-            color: var(--text-light);
-        }
-
-        .nav-icon {
-            font-size: 1.3rem;
-        }
-
-        .nav-label {
-            font-size: 0.7rem;
             font-weight: 500;
         }
 
-        /* === АДАПТИВНОСТЬ === */
-        @media (min-width: 768px) {
-            .app-container {
-                max-width: 400px;
-                margin: 0 auto;
-                box-shadow: 0 0 40px rgba(0,0,0,0.1);
-                min-height: 100vh;
-            }
-            
-            .main-content {
-                padding-bottom: 40px;
-            }
-
-            .app-footer {
-                position: relative;
-                bottom: auto;
-            }
-
-            .bottom-nav {
-                max-width: 400px;
-                left: 50%;
-                transform: translateX(-50%);
-            }
+        .btn-retry {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: var(--border-radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            min-width: 200px;
         }
 
-        /* === УТИЛИТЫ === */
+        .btn-retry:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-retry:active {
+            transform: translateY(0);
+        }
+
+        /* Анимации для плавного появления */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .offline-content {
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Стили для онлайн контента */
+        #online-content {
+            width: 100%;
+        }
+
         .hidden {
             display: none !important;
         }
 
-        .text-center {
-            text-align: center;
+        /* === БЕЗОПАСНЫЕ ЗОНЫ ДЛЯ НАВИГАЦИИ === */
+        .bottom-nav {
+            bottom: env(safe-area-inset-bottom, 0px);
         }
 
-        .mb-4 {
-            margin-bottom: 24px;
-        }
-
-        /* === СТИЛИ ДЛЯ МЕНЮ "ЕЩЁ" === */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(0); }
-            to { transform: translateY(100%); }
+        .main-content {
+            padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 80px);
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Шапка приложения -->
-        <header class="app-header">
-            <div class="header-content">
-                <h1 class="app-title">
-                    <span class="app-icon">👶</span>
-                    РодительскийПомощник
-                </h1>
-                <p class="app-subtitle">Ваш надежный спутник в уходе за малышом</p>
+    <!-- Оффлайн заглушка (изначально скрыта) -->
+    <div id="offline-overlay" class="offline-overlay hidden">
+        <div class="offline-content">
+            <div class="offline-icon">📶</div>
+            <h2>Нет подключения к интернету</h2>
+            <p>Приложение работает в оффлайн-режиме. Основные функции доступны без интернета.</p>
+            <div class="offline-features">
+                <div class="feature">✓ Калькулятор развития ребенка</div>
+                <div class="feature">✓ Дневник наблюдений и заметок</div>
+                <div class="feature">✓ Трекер прививок и осмотров</div>
+                <div class="feature">✓ Локальное хранение данных</div>
             </div>
-            <div class="header-background"></div>
-        </header>
+            <button onclick="retryConnection()" class="btn-retry">
+                Попробовать снова
+            </button>
+        </div>
+    </div>
 
-        <!-- Основной контент -->
-        <main class="main-content">
-            <!-- Приветственный баннер -->
-            <section class="welcome-banner">
-                <h2>Добро пожаловать!</h2>
-                <p>Все инструменты для заботы о вашем ребенке в одном приложении</p>
-            </section>
-
-            <!-- Быстрые действия -->
-            <section class="quick-actions">
-                <h2 class="section-title">Быстрые действия</h2>
-                <div class="actions-grid">
-                    <div class="action-card" onclick="openCalculator()">
-                        <div class="action-icon">📊</div>
-                        <div class="action-text">
-                            <h3>Замеры</h3>
-                            <p>Рост/вес</p>
-                        </div>
-                    </div>
-                    <div class="action-card" onclick="openDiary()">
-                        <div class="action-icon">🍼</div>
-                        <div class="action-text">
-                            <h3>Кормление</h3>
-                            <p>Добавить</p>
-                        </div>
-                    </div>
-                    <div class="action-card" onclick="openSleepTracker()">
-                        <div class="action-icon">😴</div>
-                        <div class="action-text">
-                            <h3>Сон</h3>
-                            <p>Отслеживать</p>
-                        </div>
-                    </div>
+    <!-- Онлайн контент -->
+    <div id="online-content">
+        <div class="app-container">
+            <!-- Шапка приложения -->
+            <header class="app-header">
+                <div class="header-content">
+                    <h1 class="app-title">
+                        <span class="app-icon">👶</span>
+                        РодительскийПомощник
+                    </h1>
+                    <p class="app-subtitle">Ваш надежный спутник в уходе за малышом</p>
                 </div>
-            </section>
+                <div class="header-background"></div>
+            </header>
 
-            <!-- Основные функции -->
-            <section class="main-features">
-                <h2 class="section-title">Основные функции</h2>
-                <div class="features-grid">
-                    <!-- Калькулятор развития -->
-                    <div class="feature-card" onclick="openCalculator()">
-                        <div class="feature-content">
-                            <div class="feature-icon calc">🧮</div>
-                            <div class="feature-info">
-                                <h3>Калькулятор развития</h3>
-                                <p>Расчет показателей по нормам ВОЗ, графики прогресса, рекомендации</p>
-                                <div class="feature-stats">
-                                    <span class="stat">98%</span>
-                                    <span class="stat-label">точность</span>
-                                </div>
+            <!-- Основной контент -->
+            <main class="main-content">
+                <!-- Приветственный баннер -->
+                <section class="welcome-banner">
+                    <h2>Добро пожаловать!</h2>
+                    <p>Все инструменты для заботы о вашем ребенке в одном приложении</p>
+                </section>
+
+                <!-- Быстрые действия -->
+                <section class="quick-actions">
+                    <h2 class="section-title">Быстрые действия</h2>
+                    <div class="actions-grid">
+                        <div class="action-card" onclick="openCalculator()">
+                            <div class="action-icon">📊</div>
+                            <div class="action-text">
+                                <h3>Замеры</h3>
+                                <p>Рост/вес</p>
                             </div>
                         </div>
-                        <div class="feature-badge">НОВОЕ</div>
-                    </div>
-
-                    <!-- Трекер прививок -->
-                    <div class="feature-card" onclick="openVaccineTracker()">
-                        <div class="feature-content">
-                            <div class="feature-icon vaccine">💉</div>
-                            <div class="feature-info">
-                                <h3>Трекер прививок</h3>
-                                <p>Календарь вакцинации, напоминания, статистика выполнения</p>
-                                <div class="feature-stats">
-                                    <span class="stat">12+</span>
-                                    <span class="stat-label">прививок</span>
-                                </div>
+                        <div class="action-card" onclick="openDiary()">
+                            <div class="action-icon">🍼</div>
+                            <div class="action-text">
+                                <h3>Кормление</h3>
+                                <p>Добавить</p>
+                            </div>
+                        </div>
+                        <div class="action-card" onclick="openSleepTracker()">
+                            <div class="action-icon">😴</div>
+                            <div class="action-text">
+                                <h3>Сон</h3>
+                                <p>Отслеживать</p>
                             </div>
                         </div>
                     </div>
+                </section>
 
-                    <!-- Дневник малыша -->
-                    <div class="feature-card" onclick="openDiary()">
-                        <div class="feature-content">
-                            <div class="feature-icon diary">📝</div>
-                            <div class="feature-info">
-                                <h3>Дневник малыша</h3>
-                                <p>Сон, кормления, активность, смена подгузников</p>
-                                <div class="feature-stats">
-                                    <span class="stat">24/7</span>
-                                    <span class="stat-label">отслеживание</span>
+                <!-- Основные функции -->
+                <section class="main-features">
+                    <h2 class="section-title">Основные функции</h2>
+                    <div class="features-grid">
+                        <!-- Калькулятор развития -->
+                        <div class="feature-card" onclick="openCalculator()">
+                            <div class="feature-content">
+                                <div class="feature-icon calc">🧮</div>
+                                <div class="feature-info">
+                                    <h3>Калькулятор развития</h3>
+                                    <p>Расчет показателей по нормам ВОЗ, графики прогресса, рекомендации</p>
+                                    <div class="feature-stats">
+                                        <span class="stat">98%</span>
+                                        <span class="stat-label">точность</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="feature-badge">НОВОЕ</div>
+                        </div>
+
+                        <!-- Трекер прививок -->
+                        <div class="feature-card" onclick="openVaccineTracker()">
+                            <div class="feature-content">
+                                <div class="feature-icon vaccine">💉</div>
+                                <div class="feature-info">
+                                    <h3>Трекер прививок</h3>
+                                    <p>Календарь вакцинации, напоминания, статистика выполнения</p>
+                                    <div class="feature-stats">
+                                        <span class="stat">12+</span>
+                                        <span class="stat-label">прививок</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Дневник малыша -->
+                        <div class="feature-card" onclick="openDiary()">
+                            <div class="feature-content">
+                                <div class="feature-icon diary">📝</div>
+                                <div class="feature-info">
+                                    <h3>Дневник малыша</h3>
+                                    <p>Сон, кормления, активность, смена подгузников</p>
+                                    <div class="feature-stats">
+                                        <span class="stat">24/7</span>
+                                        <span class="stat-label">отслеживание</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Личные заметки -->
+                        <div class="feature-card" onclick="openNotes()">
+                            <div class="feature-content">
+                                <div class="feature-icon notes">📒</div>
+                                <div class="feature-info">
+                                    <h3>Личные заметки</h3>
+                                    <p>Важные записи, наблюдения, памятки</p>
+                                    <div class="feature-stats">
+                                        <span class="stat">100%</span>
+                                        <span class="stat-label">конфиденциально</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </section>
 
-                    <!-- Личные заметки -->
-                    <div class="feature-card" onclick="openNotes()">
-                        <div class="feature-content">
-                            <div class="feature-icon notes">📒</div>
-                            <div class="feature-info">
-                                <h3>Личные заметки</h3>
-                                <p>Важные записи, наблюдения, памятки</p>
-                                <div class="feature-stats">
-                                    <span class="stat">100%</span>
-                                    <span class="stat-label">конфиденциально</span>
-                                </div>
+                <!-- Статистика и прогресс -->
+                <section class="stats-section">
+                    <h2 class="section-title">Ваша статистика</h2>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="childAge">0</div>
+                            <div class="stat-label">месяцев</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="vaccinesDone">0</div>
+                            <div class="stat-label">прививок</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="measurements">0</div>
+                            <div class="stat-label">замеров</div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-card">
+                        <div class="progress-header">
+                            <span class="progress-title">Прогресс развития</span>
+                            <span class="progress-percent" id="overallProgress">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Информационные разделы -->
+                <section class="info-sections">
+                    <h2 class="section-title">Полезная информация</h2>
+                    <div class="info-grid">
+                        <div class="info-card" onclick="openCare()">
+                            <div class="info-content">
+                                <div class="info-icon">👶</div>
+                                <h3>Уход за ребенком</h3>
+                                <p>Процедуры и гигиена</p>
+                            </div>
+                        </div>
+                        <div class="info-card" onclick="openNutrition()">
+                            <div class="info-content">
+                                <div class="info-icon">🍎</div>
+                                <h3>Питание</h3>
+                                <p>Рацион по возрастам</p>
+                            </div>
+                        </div>
+                        <div class="info-card" onclick="openHealth()">
+                            <div class="info-content">
+                                <div class="info-icon">❤️</div>
+                                <h3>Здоровье</h3>
+                                <p>Профилактика и уход</p>
+                            </div>
+                        </div>
+                        <div class="info-card" onclick="openPsychology()">
+                            <div class="info-content">
+                                <div class="info-icon">🧠</div>
+                                <h3>Психология</h3>
+                                <p>Развитие и воспитание</p>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- Статистика и прогресс -->
-            <section class="stats-section">
-                <h2 class="section-title">Ваша статистика</h2>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-value" id="childAge">0</div>
-                        <div class="stat-label">месяцев</div>
+                <!-- ФУТЕР ПЕРЕД НАВИГАЦИЕЙ -->
+                <footer class="app-footer">
+                    <div class="footer-content">
+                        <strong>© 2025 Виталий Егоров. РодительскийПомощник</strong>
+                        <span class="footer-version">Версия 2.0</span>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="vaccinesDone">0</div>
-                        <div class="stat-label">прививок</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="measurements">0</div>
-                        <div class="stat-label">замеров</div>
-                    </div>
-                </div>
-                
-                <div class="progress-card">
-                    <div class="progress-header">
-                        <span class="progress-title">Прогресс развития</span>
-                        <span class="progress-percent" id="overallProgress">0%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                </div>
-            </section>
+                </footer>
+            </main>
 
-            <!-- Информационные разделы -->
-            <section class="info-sections">
-                <h2 class="section-title">Полезная информация</h2>
-                <div class="info-grid">
-                    <div class="info-card" onclick="openCare()">
-                        <div class="info-content">
-                            <div class="info-icon">👶</div>
-                            <h3>Уход за ребенком</h3>
-                            <p>Процедуры и гигиена</p>
-                        </div>
-                    </div>
-                    <div class="info-card" onclick="openNutrition()">
-                        <div class="info-content">
-                            <div class="info-icon">🍎</div>
-                            <h3>Питание</h3>
-                            <p>Рацион по возрастам</p>
-                        </div>
-                    </div>
-                    <div class="info-card" onclick="openHealth()">
-                        <div class="info-content">
-                            <div class="info-icon">❤️</div>
-                            <h3>Здоровье</h3>
-                            <p>Профилактика и уход</p>
-                        </div>
-                    </div>
-                    <div class="info-card" onclick="openPsychology()">
-                        <div class="info-content">
-                            <div class="info-icon">🧠</div>
-                            <h3>Психология</h3>
-                            <p>Развитие и воспитание</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ФУТЕР ПЕРЕД НАВИГАЦИЕЙ -->
-            <footer class="app-footer">
-                <div class="footer-content">
-                    <strong>© 2025 Виталий Егоров. РодительскийПомощник</strong>
-                    <span class="footer-version">Версия 2.0</span>
-                </div>
-            </footer>
-        </main>
-
-        <!-- Нижняя навигация -->
-        <nav class="bottom-nav">
-            <button class="nav-item active" onclick="showHome()">
-                <span class="nav-icon">🏠</span>
-                <span class="nav-label">Главная</span>
-            </button>
-            <button class="nav-item" onclick="openDiary()">
-                <span class="nav-icon">📅</span>
-                <span class="nav-label">Дневник</span>
-            </button>
-            <button class="nav-item" onclick="openCalculator()">
-                <span class="nav-icon">📊</span>
-                <span class="nav-label">Аналитика</span>
-            </button>
-            <button class="nav-item" onclick="openMore()">
-                <span class="nav-icon">⋯</span>
-                <span class="nav-label">Еще</span>
-            </button>
-        </nav>
+            <!-- Нижняя навигация -->
+            <nav class="bottom-nav">
+                <button class="nav-item active" onclick="showHome()">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Главная</span>
+                </button>
+                <button class="nav-item" onclick="openDiary()">
+                    <span class="nav-icon">📅</span>
+                    <span class="nav-label">Дневник</span>
+                </button>
+                <button class="nav-item" onclick="openCalculator()">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Аналитика</span>
+                </button>
+                <button class="nav-item" onclick="openMore()">
+                    <span class="nav-icon">⋯</span>
+                    <span class="nav-label">Еще</span>
+                </button>
+            </nav>
+        </div>
     </div>
 
     <!-- JavaScript -->
     <script>
+        // === ФУНКЦИИ ПРОВЕРКИ СОЕДИНЕНИЯ ===
+        function checkConnection() {
+            if (navigator.onLine) {
+                // Есть интернет - показываем основной контент
+                document.getElementById('offline-overlay').classList.add('hidden');
+                document.getElementById('online-content').classList.remove('hidden');
+            } else {
+                // Нет интернета - показываем оффлайн заглушку
+                document.getElementById('offline-overlay').classList.remove('hidden');
+                document.getElementById('online-content').classList.add('hidden');
+            }
+        }
+
+        function retryConnection() {
+            if (navigator.onLine) {
+                // Перезагружаем страницу при появлении интернета
+                location.reload();
+            } else {
+                // Показываем сообщение, что интернета все еще нет
+                alert('Интернет еще не подключен. Проверьте соединение и попробуйте снова.');
+            }
+        }
+
+        // Слушатели событий сети
+        window.addEventListener('online', checkConnection);
+        window.addEventListener('offline', checkConnection);
+        
+        // Проверка при загрузке
+        window.addEventListener('load', function() {
+            checkConnection();
+            loadUserStats();
+            
+            // Добавляем анимации при загрузке
+            setTimeout(() => {
+                document.querySelectorAll('.feature-card').forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.5s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 300);
+        });
+
         // === РАБОТАЮЩИЕ ФУНКЦИИ НАВИГАЦИИ ===
         
         function openCalculator() {
@@ -934,25 +579,6 @@
             }
         }
 
-        // === ИНИЦИАЛИЗАЦИЯ ===
-        document.addEventListener('DOMContentLoaded', function() {
-            loadUserStats();
-            
-            // Добавляем анимации при загрузке
-            setTimeout(() => {
-                document.querySelectorAll('.feature-card').forEach((card, index) => {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(20px)';
-                    
-                    setTimeout(() => {
-                        card.style.transition = 'all 0.5s ease';
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, index * 100);
-                });
-            }, 300);
-        });
-
         // Service Worker регистрация
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
@@ -965,6 +591,31 @@
                     });
             });
         }
+
+        // Анимации для меню
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+
+            @keyframes slideUp {
+                from { transform: translateY(100%); }
+                to { transform: translateY(0); }
+            }
+
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+
+            @keyframes slideDown {
+                from { transform: translateY(0); }
+                to { transform: translateY(100%); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
