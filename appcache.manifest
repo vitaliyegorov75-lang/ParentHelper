@@ -1,0 +1,14 @@
+﻿CACHE MANIFEST
+# Версия 1.0
+
+CACHE:
+index.html
+offline.html
+styles.css
+manifest.json
+
+NETWORK:
+*
+
+FALLBACK:
+/ ./offline.html

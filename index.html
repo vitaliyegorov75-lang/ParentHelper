@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" manifest="./appcache.manifest">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -105,7 +105,7 @@
             clip-path: polygon(100% 0, 100% 100%, 0 100%);
         }
 
-        /* === ОСНОВНОЙ КОНТЕНТ === */
+        /* === ОСНОВНОЙ КОНТЕНт === */
         .main-content {
             padding: 20px 16px 30px;
             /* SAFE AREA FIX - защита контента */
@@ -1134,151 +1134,37 @@
                 '--safe-area-top', 
                 'env(safe-area-inset-top, 0px)'
             );
-        });
+            
+            // ПРОСТАЯ ПРОВЕРКА ОФФЛАЙН РЕЖИМА
+            console.log('🔧 Базовая оффлайн система загружена');
 
-        // 📱 ОФФЛАЙН РЕЖИМ - РАБОЧАЯ ВЕРСИЯ
-        console.log('🔄 Инициализация оффлайн режима...');
-
-        // РЕГИСТРАЦИЯ SERVICE WORKER
-        if ('serviceWorker' in navigator) {
-            // Регистрируем сразу при загрузке
-            navigator.serviceWorker.register('./service-worker.js')
-                .then(function(registration) {
-                    console.log('✅ ServiceWorker зарегистрирован! Scope:', registration.scope);
-                    
-                    // Проверяем текущий статус сети
-                    if (!navigator.onLine) {
-                        console.log('📱 Оффлайн режим активирован');
-                    }
-                })
-                .catch(function(error) {
-                    console.log('❌ Ошибка ServiceWorker:', error);
-                });
-        } else {
-            console.log('❌ ServiceWorker не поддерживается');
-        }
-
-        // ПРОВЕРКА РАБОТОСПОСОБНОСТИ
-        console.log('🔧 Оффлайн система инициализирована');
-        console.log('📊 LocalStorage доступен:', !!localStorage);
-        console.log('🌐 Статус сети:', navigator.onLine ? 'онлайн' : 'оффлайн');
-
-        // Тестируем оффлайн режим сразу
-        setTimeout(() => {
             if (!navigator.onLine) {
-                console.log('🧪 Тест: Приложение работает в оффлайн режиме');
+                console.log('🔌 Оффлайн режим активирован');
+                const indicator = document.createElement('div');
+                indicator.innerHTML = '🔌 Оффлайн - все данные сохраняются локально';
+                indicator.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    background: #FF9800;
+                    color: white;
+                    padding: 12px;
+                    text-align: center;
+                    z-index: 10000;
+                    font-size: 14px;
+                    font-weight: 500;
+                `;
+                document.body.appendChild(indicator);
             }
-        }, 1000);
-    </script>
-<script>
-// ==================== ЭКСТРЕННАЯ АКТИВАЦИЯ ОФФЛАЙН РЕЖИМА ====================
 
-console.log('🔍 Инициализация экстренного оффлайн-режима...');
+            // Проверка что LocalStorage работает
+            localStorage.setItem('app_loaded', new Date().toISOString());
+            console.log('💾 LocalStorage доступен');
 
-// 1. ПРИНУДИТЕЛЬНАЯ РЕГИСТРАЦИЯ SERVICE WORKER
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./service-worker.js', { 
-    scope: './',
-    updateViaCache: 'none'
-  }).then(registration => {
-    console.log('🚀 Service Worker зарегистрирован:', registration.scope);
-    
-    // Принудительная активация если ждет
-    if (registration.waiting) {
-      registration.waiting.postMessage({type: 'SKIP_WAITING'});
-      console.log('⚡ Принудительная активация waiting worker');
-    }
-    
-    // Принудительное обновление
-    registration.update().then(() => {
-      console.log('🔄 Service Worker принудительно обновлен');
-    });
-
-    // 2. ПРОВЕРКА ЗАКЭШИРОВАННЫХ ФАЙЛОВ
-    setTimeout(() => {
-      caches.open('parent-helper-emergency')
-        .then(cache => cache.keys())
-        .then(requests => {
-          const cachedFiles = requests.map(req => req.url);
-          console.log('📦 Закэшировано файлов:', cachedFiles.length);
-          console.log('📁 Список файлов:', cachedFiles);
-          
-          if (cachedFiles.length < 3) {
-            console.warn('❌ КЭШ ПУСТОВАТ! Нужна перезагрузка страницы');
-            // Можно показать сообщение пользователю
-            showCacheWarning();
-          } else {
-            console.log('✅ Кэш заполнен, оффлайн режим активирован');
-          }
-        })
-        .catch(error => {
-          console.error('❌ Ошибка проверки кэша:', error);
+            // Простой тест
+            console.log('✅ Приложение готово к работе');
         });
-    }, 3000);
-
-  }).catch(error => {
-    console.error('❌ Ошибка регистрации Service Worker:', error);
-  });
-} else {
-  console.error('❌ Service Worker не поддерживается');
-}
-
-// 3. ФУНКЦИЯ ПРЕДУПРЕЖДЕНИЯ О ПЕРЕЗАГРУЗКЕ
-function showCacheWarning() {
-  const warning = document.createElement('div');
-  warning.innerHTML = `
-    <div style="
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #FF9800;
-      color: white;
-      padding: 20px;
-      border-radius: 10px;
-      z-index: 10000;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    ">
-      <h3>🔄 Для оффлайн-работы</h3>
-      <p>Перезагрузите страницу еще раз</p>
-      <button onclick="location.reload()" style="
-        background: white;
-        color: #FF9800;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        margin-top: 10px;
-        cursor: pointer;
-      ">Перезагрузить</button>
-    </div>
-  `;
-  document.body.appendChild(warning);
-}
-
-// 4. ПРОВЕРКА СЕТИ И КЭША ПРИ ЗАГРУЗКЕ
-document.addEventListener('DOMContentLoaded', function() {
-  setTimeout(() => {
-    console.log('🌐 Статус сети:', navigator.onLine ? 'ОНЛАЙН' : 'ОФФЛАЙН');
-    console.log('💾 LocalStorage:', !!localStorage);
-    
-    // Проверяем готовность оффлайн-режима
-    if (!navigator.onLine) {
-      console.log('🔌 Тестируем оффлайн режим...');
-      checkOfflineReadiness();
-    }
-  }, 1000);
-});
-
-function checkOfflineReadiness() {
-  fetch('./').then(() => {
-    console.log('✅ Оффлайн режим РАБОТАЕТ!');
-  }).catch(() => {
-    console.log('❌ Оффлайн режим НЕ РАБОТАЕТ!');
-  });
-}
-
-console.log('🔧 Экстренная система оффлайн-режима активирована');
-</script>
+    </script>
 </body>
 </html>
