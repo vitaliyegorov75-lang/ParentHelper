@@ -7,6 +7,28 @@
     <meta name="description" content="Профессиональное приложение для отслеживания развития ребенка, прививок, сна и кормлений. Все инструменты для заботы о малыше в одном месте.">
     <meta name="theme-color" content="#4CAF50">
     
+    <!-- Service Worker и безопасные зоны -->
+    <script>
+    // Регистрация Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(registration => {
+            console.log('SW registered: ', registration);
+          })
+          .catch(registrationError => {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
+
+    // Определение безопасных зон
+    document.documentElement.style.setProperty(
+      '--safe-area-top', 
+      'env(safe-area-inset-top, 0px)'
+    );
+    </script>
+    
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
     
