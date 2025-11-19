@@ -1,77 +1,22 @@
 ﻿{
-  "name": "Умный Помощник Родителя - развитие и здоровье ребенка",
-  "short_name": "ПомощникРодителя",
-  "description": "Нативное приложение с персональным калькулятором развития, трекером прививок, дневником наблюдений и умными напоминаниями. Работает офлайн!",
-  "start_url": "/ParentHelper/",
-  "scope": "/ParentHelper/",
-  "display": "standalone",
-  "background_color": "#4CAF50",
-  "theme_color": "#4CAF50",
-  "orientation": "portrait",
-  "lang": "ru",
-  "categories": ["education", "health", "parenting", "lifestyle"],
-  "features": [
-    "Персональный калькулятор физического развития",
-    "Автоматический трекер прививок и медосмотров", 
-    "Умный дневник сна, кормлений и наблюдений",
-    "Офлайн-заметки и рекомендации",
-    "Локальные напоминания и уведомления",
-    "Графики роста и развития ребенка",
-    "Возрастные нормы и персональные советы",
-    "Безопасное локальное хранение данных"
-  ],
-  "screenshots": [
-    {
-      "src": "screenshots/main-native.png",
-      "sizes": "1080x1920",
-      "type": "image/png",
-      "description": "Главный экран с нативными функциями"
-    },
-    {
-      "src": "screenshots/calculator-native.png", 
-      "sizes": "1080x1920",
-      "type": "image/png",
-      "description": "Калькулятор развития ребенка"
-    },
-    {
-      "src": "screenshots/tracker-native.png",
-      "sizes": "1080x1920", 
-      "type": "image/png",
-      "description": "Трекер прививок и осмотров"
-    },
-    {
-      "src": "screenshots/diary-native.png",
-      "sizes": "1080x1920",
-      "type": "image/png",
-      "description": "Дневник сна и кормлений"
-    },
-    {
-      "src": "screenshots/notes-native.png",
-      "sizes": "1080x1920",
-      "type": "image/png",
-      "description": "Личные заметки родителей"
-    }
-  ],
-  "icons": [
-    {
-      "src": "icons/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/icon-192x192.png",
-      "sizes": "192x192", 
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png", 
-      "purpose": "any maskable"
-    }
-  ],
-  "related_applications": [],
-  "prefer_related_applications": false
+    "name": "Родительский Помощник",
+    "short_name": "ПомощникРодителя",
+    "description": "Приложение для отслеживания развития ребенка",
+    "start_url": "/ParentHelper/",
+    "display": "standalone",
+    "background_color": "#F8F9FA",
+    "theme_color": "#4CAF50",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
 }
