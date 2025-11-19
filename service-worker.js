@@ -1,110 +1,88 @@
-﻿// service-worker.js - ПОЛНАЯ РАБОЧАЯ ВЕРСИЯ ДЛЯ GITHUB PAGES
-const CACHE_NAME = 'parent-helper-v4';
+﻿// service-worker.js - АВАРИЙНЫЙ РЕЖИМ АКТИВАЦИИ
+const CACHE_NAME = 'parent-helper-emergency';
 const OFFLINE_URL = './offline.html';
 
-// Файлы для кэширования при установке
-const PRECACHE_URLS = [
+// КРИТИЧЕСКИЕ ФАЙЛЫ - только самое необходимое
+const CRITICAL_URLS = [
   './',
-  './index.html',
+  './index.html', 
   './offline.html',
   './styles.css',
-  './script.js',
-  './manifest.json',
-  // Основные страницы приложения
-  './calculator.html',
-  './diary.html', 
-  './tracker.html',
-  './notes.html',
-  './care.html',
-  './nutrition.html',
-  './health.html',
-  './psychology.html',
-  './contact.html',
-  // Иконки
-  './icons/icon-192x192.png',
-  './icons/icon-512x512.png',
-  './icons/apple-touch-icon.png'
+  './manifest.json'
 ];
 
-// Установка - кэшируем все необходимое
+// СИЛА АКТИВАЦИИ - немедленная
 self.addEventListener('install', (event) => {
-  console.log('🛠️ Service Worker: Установка начата');
-  
+  console.log('⚡ EMERGENCY INSTALL - принудительная активация');
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('📦 Service Worker: Кэшируем основные ресурсы');
-        return cache.addAll(PRECACHE_URLS);
-      })
+      .then(cache => cache.addAll(CRITICAL_URLS))
       .then(() => {
-        console.log('✅ Service Worker: Установка завершена');
-        return self.skipWaiting();
+        console.log('✅ Критические файлы закэшированы');
+        return self.skipWaiting(); // НЕМЕДЛЕННАЯ АКТИВАЦИЯ
       })
       .catch(error => {
-        console.error('❌ Service Worker: Ошибка установки', error);
+        console.error('❌ Ошибка кэширования:', error);
       })
   );
 });
 
-// Активация - очищаем старые кэши
 self.addEventListener('activate', (event) => {
-  console.log('🔄 Service Worker: Активация');
-  
+  console.log('⚡ EMERGENCY ACTIVATE - захват контроля');
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('🗑️ Service Worker: Удаляем старый кэш', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    }).then(() => {
-      console.log('✅ Service Worker: Активация завершена');
-      return self.clients.claim();
-    })
+    Promise.all([
+      self.clients.claim(), // НЕМЕДЛЕННЫЙ КОНТРОЛЬ
+      caches.keys().then(cacheNames => {
+        return Promise.all(
+          cacheNames.map(cacheName => {
+            if (cacheName !== CACHE_NAME) {
+              console.log('🗑️ Удаляем старый кэш:', cacheName);
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      })
+    ])
   );
 });
 
-// Обработка всех запросов
+// ПРОСТАЯ И НАДЕЖНАЯ СТРАТЕГИЯ
 self.addEventListener('fetch', (event) => {
-  // Пропускаем не-GET запросы
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        // Кэшируем успешные ответы
-        if (response.status === 200) {
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME)
-            .then(cache => cache.put(event.request, responseClone));
-        }
-        return response;
-      })
-      .catch(() => {
-        // При ошибке сети - ищем в кэше
-        return caches.match(event.request)
-          .then(cachedResponse => {
+    caches.match(event.request)
+      .then(cachedResponse => {
+        // Пытаемся сеть, но если ошибка - кэш
+        return fetch(event.request)
+          .then(networkResponse => {
+            // Кэшируем успешные ответы
+            if (networkResponse.ok) {
+              const responseClone = networkResponse.clone();
+              caches.open(CACHE_NAME)
+                .then(cache => cache.put(event.request, responseClone));
+            }
+            return networkResponse;
+          })
+          .catch(() => {
+            // Если в кэше есть - отдаем
             if (cachedResponse) {
               return cachedResponse;
             }
-            // Если навигационный запрос - показываем оффлайн страницу
+            // Если навигация - оффлайн страница
             if (event.request.mode === 'navigate') {
               return caches.match(OFFLINE_URL);
             }
-            // Для других ресурсов возвращаем пустой ответ
-            return new Response('Оффлайн', { 
-              status: 408, 
-              statusText: 'Offline' 
-            });
+            // Пустой ответ для остального
+            return new Response('Оффлайн', { status: 408 });
           });
       })
   );
 });
 
-// Фоновая синхронизация (для будущих функций)
-self.addEventListener('sync', (event) => {
-  console.log('🔄 Background Sync:', event.tag);
+// Принудительная активация при сообщении
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
